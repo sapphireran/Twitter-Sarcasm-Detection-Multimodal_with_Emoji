@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from examples.lib.metrics import RECORDED_RESULTS, format_results_table
+from examples.lib.metrics import RECORDED_RESULTS, format_results_table, pct
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -55,6 +55,18 @@ def main(argv: list[str] | None = None) -> int:
         print(format_results_table(metric))
         print()
 
+    rule = RECORDED_RESULTS["rule_baseline_test"]
+    print("### surface-cue rule on official test (recomputed from the CSVs)")
+    print(
+        f"| {rule['label']} | acc {pct(rule['accuracy'])} | "
+        f"P {pct(rule['precision'])} | R {pct(rule['recall'])} | "
+        f"F1 {pct(rule['f1'])} |"
+    )
+    print(
+        f"Explicit sarcasm hashtags cover {pct(rule['explicit_marker_coverage'])} "
+        "of sarcastic test tweets. High precision, incomplete recall."
+    )
+    print()
     print(
         "Takeaway: emoji2vec barely moves the official test set for trees / SVM, "
         "but it adds 2–5 points on the emoji-rich subtest, and the BiLSTM + "

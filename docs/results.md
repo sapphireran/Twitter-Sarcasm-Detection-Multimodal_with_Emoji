@@ -57,6 +57,23 @@ model is both precise (93.29%) and still high-recall (88.95%).
 Gradient boosting has no exported precision / recall in the notebook
 summary cell; only accuracy and F1 were stored.
 
+## Rule baseline (computed from the CSVs in this snapshot)
+
+`python3 examples/sarcasm_cues.py --split test` predicts sarcastic if
+the tweet has an explicit marker (`#not`, `#sarcasm`, `#yeahright`, …)
+or a positive word plus a groan emoji. On the official test set:
+
+| | accuracy | precision | recall | F1 |
+| --- | ---: | ---: | ---: | ---: |
+| surface-cue rule | 80.80 | 99.80 | 61.70 | 76.30 |
+
+613 / 1,000 sarcastic test tweets carry an explicit marker. `#not`
+(465), `#sarcasm` (89), `#sarcastictweet` (38), and `#yeahright` (19)
+are all labelled sarcastic in this split. The rule therefore matches
+random forest on accuracy but with almost no false positives and a
+large recall hole — the BiLSTM's extra 6–7 points have to come from
+tweets that look sincere until the whole sequence is read.
+
 ## How to read the W vs WE gap
 
 1. **Official test is almost saturated by words.** WE adds +1.0 point
@@ -75,6 +92,10 @@ summary cell; only accuracy and F1 were stored.
    architecture (two BiLSTMs + attention, frozen 200-d embeddings) is
    doing work that mean-pooling cannot: it can put mass on `#not`
    *after* reading "I love walking to school".
+5. **A hashtag rule is not the whole story.** The surface-cue baseline
+   already hits 80.8% test accuracy at 99.8% precision. That is a
+   strong prior in *this* dump, and it is also why the remaining gap
+   up to 87.35% is the interesting part of the project.
 
 ## Saved-model filenames vs folders
 

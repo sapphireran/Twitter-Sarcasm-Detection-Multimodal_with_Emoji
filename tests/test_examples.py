@@ -93,8 +93,10 @@ class AttentionTests(unittest.TestCase):
         x = np.array([[1.0, 0.0], [0.0, 1.0]])
         W = np.array([10.0, 0.0])
         out = attention_forward(x, W)
-        # First step should dominate because it aligns with W.
-        self.assertGreater(out.weights[0, 0], 0.9)
+        # First step should dominate because it aligns with W. tanh saturates
+        # the raw score, so the softmax gap is large but not one-hot.
+        self.assertGreater(out.weights[0, 0], out.weights[0, 1])
+        self.assertGreater(out.weights[0, 0], 0.7)
         np.testing.assert_allclose(out.context[0], (out.weights[0, :, None] * x).sum(axis=0))
 
 
@@ -156,6 +158,20 @@ class MetricsTests(unittest.TestCase):
             self.assertIn(label, table)
         self.assertEqual(RECORDED_RESULTS["splits"]["train"]["n"], 39780)
         self.assertAlmostEqual(RECORDED_RESULTS["models"]["bilstm_att"]["accuracy"][1], 0.8735)
+        rule = RECORDED_RESULTS["rule_baseline_test"]
+        self.assertGreater(rule["precision"], 0.99)
+        self.assertLess(rule["recall"], 0.70)
+
+
+class RuleBaselineIntegrationTests(unittest.TestCase):
+    def test_official_test_rule_is_precise_and_incomplete(self) -> None:
+        split = load_split("test")
+        preds = [rule_predict(text).label for text in split.texts]
+        bundle = metric_bundle(split.labels, preds)
+        self.assertGreater(bundle["precision"], 0.99)
+        self.assertGreater(bundle["accuracy"], 0.75)
+        self.assertLess(bundle["recall"], 0.70)
+        self.assertGreater(bundle["recall"], 0.50)
 
 
 if __name__ == "__main__":

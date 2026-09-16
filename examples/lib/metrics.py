@@ -67,6 +67,15 @@ RECORDED_RESULTS: dict[str, dict[str, object]] = {
             "precision": [0.8525703200775946, 0.9037837837837838, 0.8813559322033898, 0.9329268292682927],
         },
     },
+    # Recomputed from dataset/test_*.csv by examples/sarcasm_cues.py (this snapshot).
+    "rule_baseline_test": {
+        "label": "surface-cue rule",
+        "accuracy": 0.808,
+        "precision": 0.998,
+        "recall": 0.617,
+        "f1": 0.763,
+        "explicit_marker_coverage": 0.613,
+    },
 }
 
 

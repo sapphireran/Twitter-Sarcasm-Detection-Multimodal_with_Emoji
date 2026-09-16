@@ -17,7 +17,18 @@ aligned 1:1 with sentences):
 | subtest | 278 | 172 | 106 | 61.87% |
 
 `python3 examples/explore_dataset.py` reprints these numbers and adds
-token / emoji / hashtag rates.
+token / emoji / hashtag rates. A full pass on this snapshot:
+
+| Split | Mean chars | Mean tokens | Emoji rate (sarc / non) | Hashtag rate (sarc / non) |
+| --- | ---: | ---: | ---: | ---: |
+| train | 83.9 | 18.6 | 12.3% / 15.0% | 26.6% / 16.7% |
+| test | 79.0 | 16.9 | 17.2% / 10.6% | **80.4% / 12.8%** |
+| subtest | 80.8 | 18.0 | **100% / 100%** | 87.8% / 3.8% |
+
+The subtest is an emoji-only slice by construction — every row has at
+least one emoji-ish character. The official test set is the one where
+sarcastic tweets are flooded with hashtags (`#not` appears 465 times,
+always labelled sarcastic in that split).
 
 ## How the files are stored
 
