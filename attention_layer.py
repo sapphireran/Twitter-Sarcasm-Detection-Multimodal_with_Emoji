@@ -1,3 +1,24 @@
+"""Raffel-style feed-forward attention over time.
+
+Personal copy of the common Keras 2 snippet, used on top of the second
+BiLSTM in ``dl_model.PrepModel``.
+
+    e_t = tanh(h_t · W + b_t)
+    a   = softmax(e)
+    c   = Σ_t a_t h_t
+
+``W`` is a vector (one score per timestep), not a full matrix. ``b`` is
+length ``steps``, which bakes the pad length into the checkpoint. The
+2023 graphs used 78 steps — do not restore these weights onto a
+different ``maxlen``.
+
+I never dumped ``a`` for qualitative plots. That is still the first
+thing I would add: does WE actually sit on the face / the inverted
+adjective?
+
+Reference: Raffel & Ellis, arXiv:1512.08756.
+"""
+
 from tensorflow.keras.layers import Layer
 from tensorflow.keras import backend as K
 from tensorflow.keras import initializers, regularizers, constraints
@@ -23,6 +44,11 @@ class Attention(Layer):
             model.add(LSTM(64, return_sequences=True))
             model.add(Attention())
             # next add a Dense layer (for classification/regression) or whatever...
+
+        Project note (2023): bias is per-timestep, so this layer's weight
+        shapes depend on pad length. Mask is applied after exp() and
+        before the epsilon-stabilized normalize. compute_mask returns
+        None — the Dense head does not see a mask, which is fine.
         """
         self.supports_masking = True
         self.init = initializers.get('glorot_uniform')
@@ -37,6 +63,8 @@ class Attention(Layer):
         super(Attention, self).__init__(**kwargs)
 
     def build(self, input_shape):
+        # input_shape: (batch, steps, features). W is (features,).
+        # b is (steps,) — this is why maxlen is part of the checkpoint.
         assert len(input_shape) == 3
 
         self.W = self.add_weight(shape=(input_shape[-1],),
@@ -60,6 +88,7 @@ class Attention(Layer):
         return None
 
     def call(self, x, mask=None):
+        # x: (batch, steps, features) → eij: (batch, steps)
         eij = K.squeeze(K.dot(x, K.expand_dims(self.W)), axis=-1)
 
         if self.bias:
