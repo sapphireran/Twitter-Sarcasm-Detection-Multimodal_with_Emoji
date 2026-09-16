@@ -57,8 +57,8 @@ codepoints matched by `examples.lib.tweet_features.EMOJI_RE`):
 
 | Split | Mean tokens | With emoji | With a hashtag |
 | --- | ---: | ---: | ---: |
-| train | 18.5 | 13.8% | 21.3% |
-| test | 17.0 | 13.8% | 46.6% |
+| train | 18.4 | 13.8% | 21.3% |
+| test | 16.9 | 13.8% | 46.6% |
 | subtest | 17.9 | 99.6% | 55.8% |
 
 The official test set is not a random draw from train; it is denser in
