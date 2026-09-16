@@ -1,9 +1,11 @@
 """Lexical sarcasm cues and per-tweet profiles.
 
-The official test split is cue-heavier than train. ``#not`` alone covers
-about 26% of test tweets versus 9% of train, and almost every hit is
-labeled sarcastic. That leakage is why a hashtag rule is a strong
-classroom baseline and why every 2023 model looked better on subtest.
+The official test split is cue-heavier than train. After tokenization,
+an explicit sarcasm hashtag covers about 31% of test versus 9% of
+train, and every test hit is labeled sarcastic. A hashtag-only rule
+beats the recorded 2023 SVM on official test accuracy (0.808 vs
+0.769). That leakage is why every 2023 model also looked better on
+subtest.
 
 ``#not ready yet`` is the noisy case: the token is ``#not``, but the
 tweet is often a calendar complaint rather than sarcasm. Profiles keep
@@ -80,6 +82,10 @@ NEGATIVE_EMOJI = frozenset(
     }
 )
 
+# Deadpan / hostile faces used for the contrast flag. Crying 😭 is left
+# out: "love you 😭" is usually sincere, not sarcastic clash.
+DEADPAN_EMOJI = frozenset({"😒", "😑", "🙄", "🙃", "🔫", "😠", "😡"})
+
 # Letter elongation such as "loovee" / "sooo". Dots are not letters.
 _ELONG_RE_SOURCE = r"([a-z])\1{2,}"
 
@@ -155,9 +161,10 @@ def profile_tokens(tokens: list[str]) -> CueProfile:
     has_positive = any(token in POSITIVE_WORDS for token in tokens)
     has_emoji = _has_emoji_token(tokens)
     has_negative_emoji = any(token in NEGATIVE_EMOJI for token in tokens)
-    # Contrast is positive wording plus a negative emoji *or* an explicit
-    # cue. Sincere "love you 😭" without a sarcasm tag is not contrast.
-    has_contrast = has_positive and (has_negative_emoji or bool(explicit))
+    has_deadpan = any(token in DEADPAN_EMOJI for token in tokens)
+    # Contrast = positive wording + a deadpan/hostile emoji. Sincere
+    # "love you 😭" does not count; "love it 😒" does.
+    has_contrast = has_positive and has_deadpan
     has_elongation = any(
         len(token) >= 4 and any(token[i] == token[i + 1] == token[i + 2] and token[i].isalpha() for i in range(len(token) - 2))
         for token in tokens

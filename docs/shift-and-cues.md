@@ -24,21 +24,22 @@ Explicit sarcasm hashtags after lowercasing and tweet tokenization:
 
 | Cue | Train n | Train sarcasm rate | Train coverage | Test n | Test sarcasm rate | Test coverage |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `#not` | 3,491 | 0.964 | 0.088 | 515 | 0.996 | **0.258** |
-| `#sarcasm` | 0 | — | 0 | 89 | 1.000 | 0.044 |
-| `#sarcastic` | 287 | 0.986 | 0.007 | 42 | 1.000 | 0.021 |
-| `#sarcastictweet` | 229 | 0.996 | 0.006 | 38 | 1.000 | 0.019 |
-| `#yeahright` | 241 | high | 0.006 | 19 | high | 0.010 |
+| any explicit tag | 3,733 | 0.975 | 0.094 | 615 | 1.000 | **0.308** |
+| `#not` token | 3,202 | 0.974 | 0.080 | 467 | 1.000 | **0.234** |
+| other sarcasm tags | 532 | 0.983 | 0.013 | 150 | 1.000 | 0.075 |
 
-`#not` is three times more common on test than on train, and it is
-almost a perfect label. `#sarcasm` does not appear in train at all,
-so any test tweet that uses it is an out-of-vocabulary hashtag the
-2023 embedding table could only handle as a zero or as a hashed
-unknown.
+Counts are **token** matches after `tokenize_tweet`, not substring
+search. A raw `#not in line` count is higher because it also hits
+`#notes` / `#nothing`. Full Wilson intervals are in
+`docs/generated/cue_shift.md`.
 
-A rule that predicts sarcastic iff an explicit cue is present is
-therefore a serious baseline on test and a weak one on the cue-free
-remainder. `examples/05_cue_rule.py` measures that split.
+Explicit cues are about **3× more common on test than on train**, and
+every test hit is labeled sarcastic. A rule that predicts sarcastic
+iff an explicit tag is present scores **0.8075 accuracy / 1.000
+precision / 0.615 recall** on official test — **above the recorded
+SVM W accuracy of 0.769**. On the 1,385 test tweets with no explicit
+tag, that rule’s recall is zero by construction. That remainder is
+what a sequence model still has to earn.
 
 ## 3. Why WE gains grow on subtest
 
@@ -63,3 +64,11 @@ If you only quote the official test accuracy, you mix three effects:
 The archive lab reports slice metrics (`explicit_cue` vs
 `no_explicit_cue`, `has_emoji` vs `no_emoji`) so those effects stay
 separated.
+
+A hashed logistic fit on a **stratified** 12,000-row train sample
+(`docs/generated/hashed_baseline.md`) reached 0.773 test accuracy
+(recorded SVM W: 0.769). Cue weights put `explicit` and `not_tag`
+first. The same model is perfect on the 615 test tweets with an
+explicit cue and falls to 0.672 accuracy / 0.371 F1 on the other
+1,385. A raw prefix of train cannot be used for that experiment:
+the first 12,000 train rows are 11,991 sincere.

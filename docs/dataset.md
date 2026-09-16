@@ -36,6 +36,21 @@ designed leak. They are 2.4% of test. The archive lab reports them
 and does not drop them, because the 2023 notebooks did not drop them
 either.
 
+## Label order
+
+The CSVs are **block-sorted**, not shuffled:
+
+* **test:** 1,000 sarcastic rows, then 1,000 sincere (one switch)
+* **subtest:** 172 sarcastic, then 106 sincere
+* **train:** 13 switches in 39,780 lines; the first 12,000 rows are
+  11,991 sincere. Almost every sarcastic train tweet sits at the end.
+
+`ml_read_data` shuffles with an unseeded permutation, so the 2023
+sklearn fits were not prefix-trained. A naive `--train-limit 12000`
+on the raw CSV is 99.9% sincere and turns `#not` into a *negative*
+cue (those early hits are `#not ready yet`). The archive lab uses
+`ccs2lab.sample.stratified_take` before any cut.
+
 ## How the CSVs are stored
 
 `ReadOpen` in `data_utils.py` does not use a CSV parser. It reads

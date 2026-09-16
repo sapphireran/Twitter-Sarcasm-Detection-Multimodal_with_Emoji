@@ -26,6 +26,11 @@ class CueTests(unittest.TestCase):
         self.assertTrue(profile.has_contrast)
         self.assertTrue(profile.has_sarcasm_tag)
 
+    def test_love_plus_deadpan_without_hashtag_is_contrast(self) -> None:
+        profile = profile_text("I love group projects 😒")
+        self.assertTrue(profile.has_contrast)
+        self.assertFalse(profile.has_explicit)
+
     def test_elongation_ignores_dots(self) -> None:
         dotted = profile_text("wait...")
         self.assertFalse(dotted.has_elongation)

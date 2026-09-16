@@ -30,7 +30,9 @@ The WE gain is small on the official test set and larger on **subtest**.
 That is not an independent third split. Subtest is the 278-tweet
 emoji-bearing slice of test (100% overlap with test, 0 overlap with
 train, 99.3% of rows contain an emoji). Test is also cue-heavier than
-train: `#not` covers about 26% of test vs 9% of train.
+train: an explicit sarcasm hashtag covers about 31% of test vs 9% of
+train. A hashtag-only rule scores **0.808 test accuracy**, above the
+recorded SVM (0.769).
 
 ## Archive lab (this branch)
 
@@ -41,6 +43,8 @@ is **not** required.
 python3 -m pip install -r requirements-examples.txt
 PYTHONPATH=. python3 -m ccs2lab --skip-baseline
 PYTHONPATH=. python3 examples/06_hashed_baseline.py --train-limit 12000
+# --train-limit uses a stratified shuffle. The raw CSV is label-sorted;
+# a prefix of train is ~99.9% sincere.
 PYTHONPATH=. python3 -m unittest discover -s tests
 ```
 

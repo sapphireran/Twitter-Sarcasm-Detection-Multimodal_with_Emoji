@@ -14,13 +14,19 @@ if str(ROOT) not in sys.path:
 from ccs2lab.hashed_logreg import fit_logreg
 from ccs2lab.metrics import binary_scores
 from ccs2lab.report import markdown_table
+from ccs2lab.sample import stratified_take
 from ccs2lab.slices import slice_scores
 from ccs2lab.splits import load_bundle
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--train-limit", type=int, default=0, help="0 = all train rows")
+    parser.add_argument(
+        "--train-limit",
+        type=int,
+        default=0,
+        help="0 = all train rows. Uses a stratified shuffle; a raw prefix is almost all sincere.",
+    )
     parser.add_argument("--hash-dim", type=int, default=2048)
     parser.add_argument("--epochs", type=int, default=8)
     parser.add_argument("--seed", type=int, default=7)
@@ -28,11 +34,12 @@ def main() -> int:
     args = parser.parse_args()
 
     bundle = load_bundle()
-    train_texts = list(bundle.train.texts)
-    train_labels = list(bundle.train.labels)
-    if args.train_limit and args.train_limit < len(train_texts):
-        train_texts = train_texts[: args.train_limit]
-        train_labels = train_labels[: args.train_limit]
+    train_texts, train_labels = stratified_take(
+        bundle.train.texts,
+        bundle.train.labels,
+        args.train_limit,
+        seed=args.seed,
+    )
 
     model = fit_logreg(
         train_texts,

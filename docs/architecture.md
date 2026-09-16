@@ -62,9 +62,13 @@ SavedModel, not as a separate `.npy`.
 
 The timestep-shaped bias is the surprising bit. It means the layer
 learns a positional preference over the *padded* length 78, not a
-content-only score. The NumPy port in `ccs2lab.attention` keeps that
-shape so a walkthrough can show positional bias and masking
-separately.
+content-only score. Because the score is `tanh` *before* softmax, a
+huge bias saturates at 1 just like a well-aligned hidden state — it
+cannot arbitrarily drown content. `examples/04_attention_replay.py`
+shows both the saturation case and the weak-content case where the
+positional prior does win.
+
+The NumPy port in `ccs2lab.attention` keeps the Keras shapes.
 
 ## What “multi-modal” is not
 

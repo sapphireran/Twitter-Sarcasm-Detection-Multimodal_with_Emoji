@@ -53,17 +53,31 @@ def main() -> int:
     row_sum = out.weights.sum(axis=1)
     _close("masked rows still sum to 1", row_sum, np.ones((2,)))
 
-    # Timestep bias can override content. Give step 0 a huge bias.
+    # tanh saturates: a huge timestep bias and a well-aligned hidden
+    # state both score ≈ 1, so positional bias cannot drown content.
     hidden = np.zeros((1, steps, feat))
     hidden[0, 5, :] = weight / (np.linalg.norm(weight) + 1e-9)
     bias = np.zeros((steps,))
-    bias[0] = 8.0
-    out = raffel_attention(hidden, weight, bias=bias)
+    bias[0] = 30.0
+    saturated = raffel_attention(hidden, weight, bias=bias)
     print(
-        f"[ok] positional bias demo: step0={out.weights[0, 0]:.3f} "
-        f"step5={out.weights[0, 5]:.3f} "
-        "(bias shape is (timesteps,), as in the Keras layer)"
+        f"[ok] tanh saturation: huge bias step0={saturated.weights[0, 0]:.3f} "
+        f"vs aligned step5={saturated.weights[0, 5]:.3f}"
     )
+
+    # With weak content, the (timesteps,) bias does win — this is the
+    # positional prior the 2023 Keras layer can learn over pad length 78.
+    weak = np.zeros((1, steps, feat))
+    weak[0, 5, :] = 0.05 * weight / (np.linalg.norm(weight) + 1e-9)
+    modest = np.zeros((steps,))
+    modest[0] = 1.5
+    biased = raffel_attention(weak, weight, bias=modest)
+    print(
+        f"[ok] weak content + modest bias: step0={biased.weights[0, 0]:.3f} "
+        f"step5={biased.weights[0, 5]:.3f}"
+    )
+    if biased.weights[0, 0] <= biased.weights[0, 5]:
+        raise SystemExit("modest bias should win against weak content")
 
     # Epsilon guard: all-masked row stays finite.
     mask = np.zeros((1, steps))
