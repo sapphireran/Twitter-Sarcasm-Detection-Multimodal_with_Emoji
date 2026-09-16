@@ -20,7 +20,7 @@ The working hypothesis was:
    trained on emoji descriptions (emoji2vec) might carry information that
    GloVe Twitter does not assign to those glyphs.
 3. The gain from (2) should be largest on tweets that actually contain emoji.
-   That is why a 278-row **subtest** was carved out: 99.3% of those rows
+   That is why a 278-row **subtest** was carved out: 99.6% of those rows
    contain at least one emoji, versus about 14% of the main test set.
 
 ## Task definition

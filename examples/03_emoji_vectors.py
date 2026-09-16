@@ -14,7 +14,7 @@ from examples.lib.io import load_split, repo_root
 from examples.lib.tokenize import find_emoji
 from examples.lib.word2vec_bin import cosine, cosine_neighbours, load_word2vec_binary, mean_in_vocab
 
-PROBE = ("😂", "😒", "😍", "❤", "😭", "😊")
+PROBE = ("😂", "😒", "😍", "❤️", "😭", "😊")
 
 
 def main() -> None:

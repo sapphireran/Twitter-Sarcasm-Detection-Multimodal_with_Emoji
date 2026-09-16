@@ -22,7 +22,7 @@ Or: `bash examples/run_all.sh`
 | --- | --- | --- |
 | `01_dataset_preview.py` | `dataset/*.csv` | split sizes and labelled rows |
 | `02_lexical_cues.py` | `dataset/*.csv` | `#not` / `#sarcasm` precision and a tag rule |
-| `03_emoji_vectors.py` | `emoji2vec_twitter.bin` | neighbours of 😂 😒 😍 ❤ |
+| `03_emoji_vectors.py` | `emoji2vec_twitter.bin` | neighbours of 😂 😒 😍 ❤️ |
 | `04_attention_walkthrough.py` | nothing | softmax weights for a 4-step toy tweet |
 | `05_tfidf_baseline.py` | `dataset/*.csv` | hashed TF-IDF accuracy, with and without hashtags |
 

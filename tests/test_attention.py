@@ -41,4 +41,7 @@ def test_cue_aligned_weight_puts_mass_on_the_cue() -> None:
     weight = np.array([0.0, 3.0, 0.0])
     context, weights = temporal_attention(x, weight)
     assert int(np.argmax(weights[0])) == 2
-    assert context[0, 1] > context[0, 0]
+    # Two filler steps still contribute to axis 0; the cue axis should
+    # dominate the *other* feature and receive the single largest weight.
+    assert context[0, 1] > context[0, 2]
+    assert weights[0, 2] > 0.4

@@ -27,7 +27,8 @@ What you should see:
 - lexical cues: `#not` is almost perfectly sarcastic on the test set
 - emoji vectors: header `1661 200`, a few cosine neighbours for 😂 and 😒
 - attention: softmax rows sum to 1, masking moves the mass
-- TF-IDF: a test accuracy printed with and without hashtag tokens
+- TF-IDF: test accuracy near 0.83 with hashtags and near 0.74 without
+  (hash size 4,096, five epochs, seed 0)
 
 `examples/03_emoji_vectors.py` reads `emoji2vec_twitter.bin` with
 `examples/lib/word2vec_bin.py`. It does not import Gensim.

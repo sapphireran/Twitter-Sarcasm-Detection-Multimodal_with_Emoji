@@ -94,13 +94,25 @@ dl_list = [
 
 `examples/05_tfidf_baseline.py` trains a hashed-unigram logistic model on
 the shipped CSVs. It is **not** a reimplementation of the GloVe SVM and
-should not be compared to the table as if it were. It exists so a clone of
-this repo can produce *a* accuracy number without 1.2 GB of GloVe.
+should not be compared to the 2023 table as if it were. Defaults: hash
+size 4,096, five SGD epochs, seed 0. A run on this checkout printed:
 
-Expect test accuracy in the mid-to-high 70s when the script uses the
-default hash size and a few epochs. Hashtag features alone will carry a
-lot of that number. The script prints a short ablation that zeros out
-tokens starting with `#` so you can see the drop.
+| Tokens | Split | Accuracy | F1 | Precision | Recall |
+| --- | --- | ---: | ---: | ---: | ---: |
+| all (incl. hashtags) | test | 0.834 | 0.834 | 0.831 | 0.838 |
+| all (incl. hashtags) | subtest | 0.874 | 0.900 | 0.887 | 0.913 |
+| hashtags dropped | test | 0.739 | 0.754 | 0.711 | 0.803 |
+| hashtags dropped | subtest | 0.730 | 0.784 | 0.777 | 0.791 |
+
+The 9–14 point drop when `#` tokens are removed is the leak size. Surface
+unigrams without tags still beat chance, but they do not match the 2023
+BiLSTM.
+
+Reproduce with:
+
+```bash
+python3 examples/05_tfidf_baseline.py --hash-size 4096 --epochs 5 --seed 0
+```
 
 ## Plots
 

@@ -61,7 +61,7 @@ read a 87% neural score.
 Parses the word2vec binary header (`1661 200`) and the 1,661 rows. It
 then:
 
-- looks up 😂, 😒, 😍, and ❤
+- looks up 😂, 😒, 😍, and ❤️
 - prints each vector's L2 norm
 - lists the five nearest in-file neighbours by cosine similarity
 

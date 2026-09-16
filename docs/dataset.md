@@ -12,14 +12,15 @@ subtest rows).
 
 | File pair | Rows | Sarcastic (`1`) | Non-sarcastic (`0`) | ≥1 emoji | ≥1 hashtag |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `train_sentence.csv` / `train_label.csv` | 39,780 | 18,488 (46.5%) | 21,292 (53.5%) | 5,458 (13.7%) | 8,486 (21.3%) |
-| `test_sentence.csv` / `test_label.csv` | 2,000 | 1,000 (50.0%) | 1,000 (50.0%) | 276 (13.8%) | 932 (46.6%) |
-| `subtest_sentence.csv` / `subtest_label.csv` | 278 | 172 (61.9%) | 106 (38.1%) | 276 (99.3%) | 155 (55.8%) |
+| `train_sentence.csv` / `train_label.csv` | 39,780 | 18,488 (46.5%) | 21,292 (53.5%) | 5,470 (13.8%) | 8,486 (21.3%) |
+| `test_sentence.csv` / `test_label.csv` | 2,000 | 1,000 (50.0%) | 1,000 (50.0%) | 277 (13.9%) | 932 (46.6%) |
+| `subtest_sentence.csv` / `subtest_label.csv` | 278 | 172 (61.9%) | 106 (38.1%) | 277 (99.6%) | 155 (55.8%) |
 
 The subtest is not a random slice of the test set. It is almost the emoji-
-containing subset: 276 of 278 rows include an emoji codepoint. Class
-balance also shifts (62% sarcastic vs 50% on the main test set), so
-accuracy on the subtest is not directly comparable to test accuracy.
+containing subset: 277 of 278 rows include an emoji codepoint under the
+regex in `examples/lib/tokenize.py`. Class balance also shifts (62%
+sarcastic vs 50% on the main test set), so accuracy on the subtest is not
+directly comparable to test accuracy.
 
 `examples/01_dataset_preview.py` reprints these counts.
 
@@ -56,9 +57,9 @@ Hashtag counts on the **test** set (casefolded):
 | `#sarcastictweet` | 38 | 0 |
 | `#yeahright` | 19 | 0 |
 
-On **train**, `#not` appears 3,191 times (3,108 sarcastic / 83 not). Other
-high-precision tags include `#yeahright` (237 / 4) and `#sarcastictweet`
-(228 / 1).
+On **train**, `#not` occurs 3,191 times across 3,188 tweets (3,105
+sarcastic / 83 not by tweet). Other high-precision tags include
+`#yeahright` (237 / 4) and `#sarcastictweet` (228 / 1).
 
 This is a known property of hashtag-supervised Twitter sarcasm corpora: the
 label often *is* the tag. A model that sees `#not` can look strong without
@@ -117,7 +118,9 @@ script if you want a longer sample.
 Both are word2vec **binary** files. The neural preprocessor only consults
 them for tokens that fail the GloVe lookup and then look like emoji.
 `examples/03_emoji_vectors.py` reads the 200-d file with a small parser so
-you can inspect neighbours without Gensim.
+you can inspect neighbours without Gensim. Heart-like glyphs in that table
+use the emoji-style form `❤️` (U+2764 plus variation selector-16), not
+the bare `❤`.
 
 The GloVe Twitter 27B 200-d vectors are **not** in the repo. See
 [`reproduction.md`](reproduction.md).

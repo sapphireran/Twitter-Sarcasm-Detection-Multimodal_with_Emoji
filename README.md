@@ -45,9 +45,9 @@ The original Keras SavedModel folders under `model/` only include `keras_metadat
 
 | Split | Tweets | Sarcastic | With emoji | Why it exists |
 | --- | ---: | ---: | ---: | --- |
-| `dataset/train_*.csv` | 39,780 | 46.5% | 13.7% | model fitting |
-| `dataset/test_*.csv` | 2,000 | 50.0% | 13.8% | main held-out numbers |
-| `dataset/subtest_*.csv` | 278 | 61.9% | 99.3% | emoji-present slice |
+| `dataset/train_*.csv` | 39,780 | 46.5% | 13.8% | model fitting |
+| `dataset/test_*.csv` | 2,000 | 50.0% | 13.9% | main held-out numbers |
+| `dataset/subtest_*.csv` | 278 | 61.9% | 99.6% | emoji-present slice |
 
 Labels are `1` = sarcastic and `0` = not sarcastic. The subtest is almost entirely tweets that contain at least one emoji, which is why the multi-modal gap shows up there more clearly than on the balanced test set.
 
@@ -99,6 +99,8 @@ Details and known path mismatches: [`docs/reproduction.md`](docs/reproduction.md
 | BiLSTM + attention | **0.864** | **0.874** |
 
 These figures are copied from the executed cells in `get_metrics_of_models.ipynb` and `baseline_models.ipynb`. They are historical course results, not numbers regenerated in this documentation pass.
+
+A hashed TF-IDF logistic model that *does* run from this checkout scores **0.834** test accuracy with hashtags and **0.739** after they are dropped (`examples/05_tfidf_baseline.py`, seed 0). That gap is the label leak discussed in [`docs/dataset.md`](docs/dataset.md).
 
 ## Course and licence
 
