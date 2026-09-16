@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from typing import Dict, Iterable, List, Sequence
 
-from .tokenize import tokenize_tweet
+from .tokenize import is_emoji_token, tokenize_tweet
 
 # Distant-supervision tags that often *are* the label.
 HASHTAG_LEAK_PATTERNS = (
@@ -68,7 +68,7 @@ def extract_features(text: str, *, include_leak: bool = True) -> Dict[str, int]:
     token_set = set(tokens)
     joined = " ".join(tokens)
     emoji_chars = [tok for tok in tokens if tok in SARCASTIC_LEANING_EMOJI or tok in SINCERE_LEANING_EMOJI]
-    any_emoji = any(len(tok) == 1 and ord(tok) > 255 for tok in tokens) or bool(emoji_chars)
+    any_emoji = any(is_emoji_token(tok) for tok in tokens) or bool(emoji_chars)
     n = len(tokens)
     feats = {
         "has_leak_hashtag": int(include_leak and has_leak_hashtag(text)),

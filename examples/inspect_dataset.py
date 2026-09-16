@@ -14,11 +14,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from lib.features import has_leak_hashtag  # noqa: E402
 from lib.io import load_all  # noqa: E402
-from lib.tokenize import tokenize_tweet, whitespace_len  # noqa: E402
+from lib.tokenize import is_emoji_token, is_hashtag_token, tokenize_tweet, whitespace_len  # noqa: E402
 
 
 def _emoji_tokens(tokens):
-    return [tok for tok in tokens if len(tok) == 1 and ord(tok) > 255]
+    return [tok for tok in tokens if is_emoji_token(tok)]
 
 
 def summarize(limit_hashtags: int, limit_emoji: int) -> None:
@@ -41,7 +41,7 @@ def summarize(limit_hashtags: int, limit_emoji: int) -> None:
                 emoji_tweets += 1
             if split.name == "train":
                 for tok in tokens:
-                    if tok.startswith("#"):
+                    if is_hashtag_token(tok):
                         hashtag_counter[tok] += 1
                 emoji_counter.update(emojis)
         print(

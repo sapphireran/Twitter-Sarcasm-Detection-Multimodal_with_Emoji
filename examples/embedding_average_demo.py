@@ -16,7 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from lib.embeddings import average_vectors, cosine, embed_tweet, toy_table  # noqa: E402
-from lib.tokenize import tokenize_tweet  # noqa: E402
+from lib.tokenize import is_emoji_token, tokenize_tweet  # noqa: E402
 
 PAIRS = [
     (
@@ -36,8 +36,8 @@ def _fmt(vec) -> str:
 
 def show(text: str, table, dim: int) -> None:
     tokens = tokenize_tweet(text)
-    word_only = {k: v for k, v in table.items() if not _is_emoji_key(k)}
-    emoji_only = {k: v for k, v in table.items() if _is_emoji_key(k)}
+    word_only = {k: v for k, v in table.items() if not is_emoji_token(k)}
+    emoji_only = {k: v for k, v in table.items() if is_emoji_token(k)}
     single = average_vectors(tokens, word_only, dim)
     multi = embed_tweet(text, word_only, dim, emoji_table=emoji_only)
     print(f"tweet:   {text}")
@@ -45,10 +45,6 @@ def show(text: str, table, dim: int) -> None:
     print(f"text-only mean ({dim}d): {_fmt(single)}")
     print(f"concat mean ({2 * dim}d): {_fmt(multi)}")
     print()
-
-
-def _is_emoji_key(key: str) -> bool:
-    return len(key) == 1 and ord(key) > 255
 
 
 def main() -> None:

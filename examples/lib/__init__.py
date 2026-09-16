@@ -6,7 +6,7 @@ from .features import HASHTAG_LEAK_PATTERNS, extract_features, has_leak_hashtag
 from .io import Split, load_split, repo_root
 from .metrics import accuracy, confusion, f1, precision, recall
 from .naive_bayes import BernoulliNB
-from .tokenize import tokenize_tweet
+from .tokenize import is_emoji_token, is_hashtag_token, tokenize_tweet
 
 __all__ = [
     "BernoulliNB",
@@ -23,6 +23,8 @@ __all__ = [
     "recall",
     "repo_root",
     "temporal_attention",
+    "is_emoji_token",
+    "is_hashtag_token",
     "tokenize_tweet",
     "toy_table",
 ]

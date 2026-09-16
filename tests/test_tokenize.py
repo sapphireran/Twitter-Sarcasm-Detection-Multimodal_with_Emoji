@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 
 import _path  # noqa: F401
-from lib.tokenize import tokenize_tweet, whitespace_len
+from lib.tokenize import is_emoji_token, is_hashtag_token, tokenize_tweet, whitespace_len
 
 
 class TokenizeTests(unittest.TestCase):
@@ -29,6 +29,21 @@ class TokenizeTests(unittest.TestCase):
 
     def test_lowercase_flag(self):
         self.assertEqual(tokenize_tweet("Hi #NOT", lowercase=False), ["Hi", "#NOT"])
+
+    def test_ellipsis_stays_whole(self):
+        self.assertIn("...", tokenize_tweet("text back ... 😒"))
+
+    def test_variation_selector_is_dropped(self):
+        # ❤ often arrives as HEART + VS16; keep the pictograph only.
+        tokens = tokenize_tweet("love ❤\ufe0f now")
+        self.assertIn("❤", tokens)
+        self.assertNotIn("\ufe0f", tokens)
+
+    def test_classifiers(self):
+        self.assertTrue(is_hashtag_token("#not"))
+        self.assertFalse(is_hashtag_token("#"))
+        self.assertTrue(is_emoji_token("😒"))
+        self.assertFalse(is_emoji_token("\ufe0f"))
 
 
 if __name__ == "__main__":

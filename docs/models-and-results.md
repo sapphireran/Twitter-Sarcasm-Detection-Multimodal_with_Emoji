@@ -85,6 +85,26 @@ The printed `summary()` shows two bidirectional layers (512 units out) and a 78-
 
 5. **Hashtag leakage sits under every number.** A model that sees `#not` is partly solving a meta-labeling problem. The heuristic example script isolates that effect; the original notebooks did not.
 
+## Heuristic leakage check (added with the examples)
+
+`examples/heuristic_baseline.py` fits a Bernoulli Naive Bayes model on a dozen hand-built features, once **with** `#not` / `#sarcasm` / `#yeahright` as a feature and once with that feature forced off. Same train/test CSVs, no GloVe.
+
+| Setting | test acc | test F1 | subtest acc | subtest F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Majority class | 0.500 | — | 0.619 | — |
+| Bernoulli + leak tags | **0.753** | 0.761 | **0.842** | 0.870 |
+| Bernoulli, leak tags removed | 0.557 | 0.620 | 0.576 | 0.617 |
+
+The leak model’s 0.753 test accuracy is already in the same band as the 2023 SVM (0.769) and well above an untuned decision tree (0.727). Turning the hashtag feature off collapses the same classifier to 0.557. On the emoji-heavy subtest the drop is even sharper (0.842 → 0.576).
+
+That does **not** mean the BiLSTM is “just a hashtag detector.” It does mean every published number in the tables above should be read as *including* the distant-supervision tags. The strongest single log-odds feature in the leak model is `has_leak_hashtag` (+3.82); the next, `has_sarcastic_emoji`, is only +0.42.
+
+Re-run:
+
+```bash
+python3 examples/heuristic_baseline.py
+```
+
 ## What was not reported
 
 The notebooks do not include:

@@ -15,7 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from lib.attention import argmax_token, temporal_attention  # noqa: E402
-from lib.tokenize import tokenize_tweet  # noqa: E402
+from lib.tokenize import is_emoji_token, tokenize_tweet  # noqa: E402
 
 
 def _one_hotish(tokens, lexicon):
@@ -34,7 +34,7 @@ def _one_hotish(tokens, lexicon):
             row[1] = 1.0
         if tok.startswith("#") and tok in {"#not", "#sarcasm", "#yeahright"}:
             row[2] = 1.4
-        if len(tok) == 1 and ord(tok) > 255:
+        if is_emoji_token(tok):
             row[3] = 1.1
         # unknown tokens stay near zero so the pad-like prior does not dominate
         if tok in lexicon:

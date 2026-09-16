@@ -46,6 +46,8 @@ Numbers below are copied from the executed notebook outputs. They are **not** re
 
 The multimodal deep model is the best of the set, and the emoji-heavy **subtest** is where emoji2vec helps most (random forest +4.7 points; BiLSTM +2.5 points). On the balanced 2,000-tweet test set the classical gain is small; SVM even drops slightly when emoji vectors are concatenated. That pattern is discussed in [`docs/models-and-results.md`](docs/models-and-results.md).
 
+A stdlib Bernoulli baseline in `examples/heuristic_baseline.py` reaches **0.753** test accuracy when `#not` / `#sarcasm` are allowed as features and **0.557** when they are stripped. The 2023 tables include that leakage; they do not isolate it.
+
 ## Dataset snapshot
 
 | Split | Tweets | Positive (sarcastic) rate | Typical length |

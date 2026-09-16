@@ -17,11 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from lib.features import has_leak_hashtag  # noqa: E402
 from lib.io import load_split  # noqa: E402
-from lib.tokenize import tokenize_tweet  # noqa: E402
-
-
-def _is_emoji(tok: str) -> bool:
-    return len(tok) == 1 and ord(tok) > 255
+from lib.tokenize import is_emoji_token, tokenize_tweet  # noqa: E402
 
 
 def table(split_name: str, top: int, min_count: int, strip_leak: bool) -> None:
@@ -32,7 +28,7 @@ def table(split_name: str, top: int, min_count: int, strip_leak: bool) -> None:
         if strip_leak and has_leak_hashtag(text):
             continue
         used += 1
-        seen = {tok for tok in tokenize_tweet(text) if _is_emoji(tok)}
+        seen = {tok for tok in tokenize_tweet(text) if is_emoji_token(tok)}
         for emo in seen:
             stats[emo]["n"] += 1
             stats[emo]["pos"] += int(label == 1)

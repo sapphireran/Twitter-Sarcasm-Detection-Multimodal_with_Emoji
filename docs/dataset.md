@@ -68,7 +68,7 @@ Hashtag counts on the **training** sentences (case-folded):
 
 A linear scan for `#not`, `#sarcasm`, or `#sarcastic` hits **3,246** training tweets. That is about 8% of the split and a much larger share of the sarcastic class. Any model that sees raw hashtags is partly solving “detect the sarcasm hashtag,” which is a different task from “detect sarcasm in the wild after those hashtags are stripped.”
 
-The examples script `examples/heuristic_baseline.py` reports accuracy **with and without** those tags so the leakage is visible rather than hidden.
+The examples script `examples/heuristic_baseline.py` reports accuracy **with and without** those tags so the leakage is visible rather than hidden. On this checkout the leak-aware heuristic scores 0.753 test accuracy; the same model with those tags turned off scores 0.557. See [`models-and-results.md`](models-and-results.md).
 
 ## Emoji
 
