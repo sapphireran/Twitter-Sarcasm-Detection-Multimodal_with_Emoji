@@ -1,0 +1,4 @@
+# Lightweight extras for the docs/examples suite.
+# The example scripts themselves only need the Python standard library and NumPy.
+
+numpy>=1.23
