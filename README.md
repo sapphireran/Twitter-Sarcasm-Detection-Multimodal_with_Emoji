@@ -128,6 +128,7 @@ I wrote these after the fact from the notebooks, printed metrics, and a fresh pa
 - [notes/dataset-notes.md](notes/dataset-notes.md) — split construction, emoji rate, examples
 - [notes/architecture-and-training.md](notes/architecture-and-training.md) — why this stack, attention, embedding tricks
 - [notes/reproduction-checklist.md](notes/reproduction-checklist.md) — files that are here vs files I still need locally
+- [notes/open-questions.md](notes/open-questions.md) — what I still would not claim
 
 ## License
 
