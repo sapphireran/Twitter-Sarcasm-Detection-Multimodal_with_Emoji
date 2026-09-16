@@ -1,0 +1,77 @@
+{
+  "description": "Hand-picked personal examples that show the sarcasm cues this project studies. Labels: 1 = sarcastic, 0 = not sarcastic.",
+  "tweets": [
+    {
+      "id": "love-unamused",
+      "text": "I loovee when people text back ... 😒 #sarcastictweet",
+      "label": 1,
+      "notes": "Elongated positive verb, delayed reply complaint, unamused emoji, explicit sarcasm hashtag."
+    },
+    {
+      "id": "parents-not",
+      "text": "Don't you love it when your parents are Pissed because you were gonna study after bubble soccer ! #IKnowIDo #not 😃 🔫",
+      "label": 1,
+      "notes": "Classic contrast: love + anger + #not, then a smile and a gun emoji."
+    },
+    {
+      "id": "grungy-hair",
+      "text": "I just love having grungy ass hair 😑 #not",
+      "label": 1,
+      "notes": "Positive verb, negative evaluation, deadpan emoji, #not."
+    },
+    {
+      "id": "chem-owls",
+      "text": "Anyone in Chem that has to do OWLs knows my pain right now ... #crazycollgelife #not #studying24hrsaday 😩",
+      "label": 1,
+      "notes": "Complaint plus #not and a weary face; no genuine praise."
+    },
+    {
+      "id": "golf",
+      "text": "I love watching golf ! ⛳ ️ #not",
+      "label": 1,
+      "notes": "Short template: love + hobby + #not."
+    },
+    {
+      "id": "million-bucks",
+      "text": "feeling like a million bucks after that chem 2 test . 😅 #not",
+      "label": 1,
+      "notes": "Idiom of success flipped by #not and a grimace."
+    },
+    {
+      "id": "mla-apa",
+      "text": "Good thing I spent four years getting MLA formatting shoved down my throat . #itsAPA 😑 👎",
+      "label": 1,
+      "notes": "Evaluative 'good thing' plus academic frustration emojis; no #not."
+    },
+    {
+      "id": "dirty-house",
+      "text": "Oh how I love getting home from work at 3am and my house being dirty #not",
+      "label": 1,
+      "notes": "Vocative 'oh how I love' plus an unpleasant situation."
+    },
+    {
+      "id": "hallucination-live",
+      "text": "<user> i hope youre lurking rn. i want to listen to hallucination & wanna love you again live someday, pretty please?! 😭 😭 😭",
+      "label": 0,
+      "notes": "Sincere request. Crying emoji here is emotion, not a sarcasm flip."
+    },
+    {
+      "id": "rest-in-peace",
+      "text": "<user> Rest in peace & love to you and your family",
+      "label": 0,
+      "notes": "Condolence. The word love is literal."
+    },
+    {
+      "id": "christmas",
+      "text": "100 days until Christmas! 🌲 #too soon #not ready yet",
+      "label": 0,
+      "notes": "#not is part of '#not ready yet', not a sarcasm marker. Tokenization matters."
+    },
+    {
+      "id": "never-late",
+      "text": "05 really taught me a valuable lesson I'm never gonna be late again! #Not",
+      "label": 0,
+      "notes": "Hashtag case-folds to #not but the sentence is a sincere resolution. Cue is noisy."
+    }
+  ]
+}
