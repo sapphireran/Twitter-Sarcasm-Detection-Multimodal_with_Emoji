@@ -88,5 +88,7 @@ Step-by-step constraints, path mismatches, and gensim 4 notes:
 
 39,780 train tweets (46.5% sarcastic), 2,000 balanced test tweets, and
 a 278-tweet emoji subset of test. Labels are `0` (literal) / `1`
-(sarcastic) and are stored in contiguous blocks, so shuffle before
-training. Details and cue-rate tables are in the data-pipeline note.
+(sarcastic). Test and subtest are stored as one sarcastic block then one
+literal block; train is mostly grouped but not a single clean partition.
+Shuffle before training. Details and cue-rate tables are in the
+data-pipeline note.

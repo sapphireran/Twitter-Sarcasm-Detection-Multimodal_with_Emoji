@@ -21,6 +21,12 @@ class TokenizeTests(unittest.TestCase):
         tokens = tokenize_tweet("I love monday 😒")
         self.assertIn("😒", tokens)
 
+    def test_adjacent_emoji_stay_separate(self) -> None:
+        tokens = tokenize_tweet("ok 😃 🔫")
+        self.assertIn("😃", tokens)
+        self.assertIn("🔫", tokens)
+        self.assertNotIn("😃🔫", tokens)
+
     def test_url_kept(self) -> None:
         tokens = tokenize_tweet("see https://example.com/a now")
         self.assertTrue(any(token.startswith("https://") for token in tokens))

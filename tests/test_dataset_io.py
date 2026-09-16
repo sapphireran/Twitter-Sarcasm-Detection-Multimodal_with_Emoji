@@ -7,6 +7,7 @@ from examples.dataset_io import (
     assert_subtest_is_test_emoji,
     cue_stats,
     emoji_subset_indices,
+    label_run_count,
     labels_are_blocked,
     load_split,
     summarize_split,
@@ -35,9 +36,16 @@ class DatasetIoTests(unittest.TestCase):
         self.assertEqual(subtest.n_positive, 172)
         self.assertEqual(subtest.n_negative, 106)
 
-    def test_labels_are_stored_in_blocks(self) -> None:
-        for split in self.splits.values():
-            self.assertTrue(labels_are_blocked(split.labels), split.name)
+    def test_eval_labels_are_stored_in_blocks(self) -> None:
+        self.assertTrue(labels_are_blocked(self.splits["test"].labels))
+        self.assertTrue(labels_are_blocked(self.splits["subtest"].labels))
+        self.assertEqual(label_run_count(self.splits["test"].labels), 2)
+        self.assertEqual(label_run_count(self.splits["subtest"].labels), 2)
+
+    def test_train_labels_are_mostly_grouped(self) -> None:
+        runs = label_run_count(self.splits["train"].labels)
+        self.assertEqual(runs, 14)
+        self.assertFalse(labels_are_blocked(self.splits["train"].labels))
 
     def test_unknown_split_rejected(self) -> None:
         with self.assertRaises(ValueError):
@@ -59,6 +67,7 @@ class DatasetIoTests(unittest.TestCase):
         self.assertEqual(summary["name"], "test")
         self.assertGreater(summary["hashtag_rate"], 0.3)
         self.assertAlmostEqual(summary["emoji_rate"], 278 / 2000)
+        self.assertTrue(tweet_has_emoji("I have 3 different types of mad : ⭕ ️"))
 
     def test_train_emoji_counts_split_by_class(self) -> None:
         stats = cue_stats(self.splits["train"])

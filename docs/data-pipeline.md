@@ -19,11 +19,14 @@ Each split is a pair of files with the same number of lines:
   (`<user>` placeholders, spaces around punctuation, emoji kept as characters)
 - `*_label.csv` — a single integer `0` or `1` per line, no header
 
-The files are **not shuffled on disk**. Train labels are a block of `0`s
-followed by a block of `1`s. Test and subtest are the opposite: sarcastic
-tweets first, literal tweets last. `ml_read_data` therefore draws a random
-permutation before returning arrays. Any new training script must do the same
-or a sequential iterator will see only one class for a long time.
+The files are **not shuffled on disk**. Test and subtest are a single
+sarcastic block followed by a single literal block (1,000 + 1,000 and
+172 + 106). Train is *mostly* grouped — a long literal run, then a long
+sarcastic run — but it is not a clean two-block file: there are 13 class
+changes and a handful of sarcastic rows inside the literal prefix.
+`ml_read_data` therefore draws a random permutation before returning
+arrays. Any new training script must do the same or a sequential iterator
+will see one class for thousands of steps.
 
 ## What the subtest is
 
@@ -35,6 +38,11 @@ counts match the emoji-containing rows of `test_label.csv` (172 sarcastic,
 That construction is why multi-modal gains show up more clearly on subtest
 than on the full test set: the full test set is 86% emoji-free, so a 200-d
 emoji average is a zero vector for most rows.
+
+The walkthrough `examples.inspect_dataset` re-checks this identity on
+every run: every subtest row occurs in `test` in the same relative order,
+and those rows are exactly the test tweets that contain an emoji
+code point (including dingbats such as ⭕️).
 
 Approximate surface-cue rates computed from the checked-in CSVs:
 

@@ -112,3 +112,7 @@ deterministic given the weights and the tokenizer.
 
 The example lexical baseline seeds NumPy (`default 7`) so repeat runs
 match.
+
+`examples.inspect_dataset` asserts that `subtest_*.csv` is the
+emoji-bearing, same-order subset of `test_*.csv`. If you edit the CSVs,
+run that script before trusting the experiment tables.

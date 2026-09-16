@@ -92,12 +92,20 @@ def iter_splits(dataset_dir: Path | None = None) -> Iterator[Split]:
         yield load_split(name, dataset_dir=dataset_dir)
 
 
+def label_run_count(labels: Sequence[int]) -> int:
+    """How many contiguous same-label runs are in the file order."""
+    if not labels:
+        return 0
+    runs = 1
+    for previous, current in zip(labels, labels[1:]):
+        if previous != current:
+            runs += 1
+    return runs
+
+
 def labels_are_blocked(labels: Sequence[int]) -> bool:
     """Return True if the label sequence is one run of 0s and one run of 1s."""
-    if not labels:
-        return True
-    changes = sum(a != b for a, b in zip(labels, labels[1:]))
-    return changes <= 1
+    return label_run_count(labels) <= 2
 
 
 @dataclass
@@ -146,7 +154,8 @@ def _has_sarcasm_token(text: str) -> bool:
     return "sarcas" in text.lower()
 
 
-# Broad but dependency-free emoji ranges. Good enough for split statistics.
+# Broad but dependency-free emoji ranges. Includes dingbats, VS16, and
+# Miscellaneous Symbols and Arrows so rows like "⭕️" count as emoji.
 _EMOJI_RANGES = (
     (0x1F300, 0x1F5FF),
     (0x1F600, 0x1F64F),
@@ -156,9 +165,16 @@ _EMOJI_RANGES = (
     (0x1F800, 0x1F8FF),
     (0x1F900, 0x1F9FF),
     (0x1FA00, 0x1FAFF),
+    (0x1F1E6, 0x1F1FF),
+    (0x2190, 0x21FF),
+    (0x2300, 0x23FF),
+    (0x25A0, 0x25FF),
     (0x2600, 0x26FF),
     (0x2700, 0x27BF),
-    (0x1F1E6, 0x1F1FF),
+    (0x2B00, 0x2BFF),
+    (0xFE00, 0xFE0F),
+    (0x200D, 0x200D),
+    (0x3297, 0x3299),
 )
 
 
@@ -213,6 +229,7 @@ def summarize_split(split: Split) -> Dict[str, object]:
             "n_negative": split.n_negative,
             "positive_rate": split.positive_rate,
             "labels_blocked": labels_are_blocked(split.labels),
+            "label_runs": label_run_count(split.labels),
             "first_labels": list(split.labels[:8]),
             "last_labels": list(split.labels[-8:]),
         }
@@ -226,7 +243,8 @@ def format_summary(summary: Dict[str, object]) -> str:
         f"n                {summary['n']}",
         f"literal / sarc   {summary['n_negative']} / {summary['n_positive']}",
         f"positive rate    {summary['positive_rate']:.4f}",
-        f"labels blocked   {summary['labels_blocked']}",
+        f"label runs       {summary['label_runs']}  "
+        f"(single 0/1 block={summary['labels_blocked']})",
         f"word tokens      min {summary['words_min']}  "
         f"median {summary['words_median']}  max {summary['words_max']}  "
         f"mean {summary['words_mean']:.2f}",
@@ -243,7 +261,14 @@ def format_summary(summary: Dict[str, object]) -> str:
 
 
 def assert_subtest_is_test_emoji(test: Split, subtest: Split) -> None:
-    """The course subtest is the emoji-bearing slice of the official test set."""
+    """The course subtest is the emoji-bearing slice of the official test set.
+
+    Rows keep the same relative order as ``test``: sarcastic emoji tweets
+    first, then literal emoji tweets.
+    """
+    membership = [sentence for sentence in test.sentences if sentence in set(subtest.sentences)]
+    if membership != subtest.sentences:
+        raise AssertionError("subtest rows are not a same-order subset of test")
     indices = emoji_subset_indices(test.sentences)
     filtered_sentences = [test.sentences[i] for i in indices]
     filtered_labels = [test.labels[i] for i in indices]

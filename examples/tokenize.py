@@ -32,23 +32,19 @@ def join_commas(line: str) -> str:
 def tokenize_tweet(text: str, lowercase: bool = True) -> List[str]:
     joined = join_commas(text)
     tokens: List[str] = []
-    buffer: List[str] = []
-
-    def flush_emoji_buffer() -> None:
-        if buffer:
-            tokens.append("".join(buffer))
-            buffer.clear()
-
     for match in _TOKEN_RE.finditer(joined):
         raw = match.group(0)
-        if len(raw) == 1 and is_emoji_char(raw):
-            buffer.append(raw)
-            continue
-        flush_emoji_buffer()
         if raw.strip() == "":
             continue
+        code = ord(raw) if len(raw) == 1 else None
+        # Variation selectors attach to the previous emoji token.
+        if code is not None and 0xFE00 <= code <= 0xFE0F and tokens:
+            tokens[-1] = tokens[-1] + raw
+            continue
+        if code is not None and is_emoji_char(raw):
+            tokens.append(raw)
+            continue
         tokens.append(raw.lower() if lowercase else raw)
-    flush_emoji_buffer()
     return tokens
 
 
