@@ -12,12 +12,11 @@ finishes in a few seconds. Pass ``--full`` to use all 39,780 rows.
 from __future__ import annotations
 
 import argparse
-import random
 
 import _path  # noqa: F401
 
 from sarcasm_toolkit.baseline import CueLogistic, LexiconBaseline, describe_prediction
-from sarcasm_toolkit.dataset import load_split
+from sarcasm_toolkit.dataset import load_split, sample_split
 from sarcasm_toolkit.metrics import binary_metrics, format_metrics
 
 SAMPLE_TEXTS = [
@@ -26,14 +25,6 @@ SAMPLE_TEXTS = [
     "<user> i hope youre lurking rn pretty please?! 😭 😭 😭",
     "Happy birthday to me. Yay.",
 ]
-
-
-def subset(texts, labels, n: int, seed: int):
-    rng = random.Random(seed)
-    order = list(range(len(texts)))
-    rng.shuffle(order)
-    picked = order[:n]
-    return [texts[i] for i in picked], [labels[i] for i in picked]
 
 
 def main() -> None:
@@ -47,10 +38,14 @@ def main() -> None:
     if args.full:
         x_train, y_train = list(train.texts), list(train.labels)
     else:
-        x_train, y_train = subset(train.texts, train.labels, args.n_train, seed=2023)
+        sampled = sample_split(train, args.n_train, seed=2023)
+        x_train, y_train = list(sampled.texts), list(sampled.labels)
 
     print("Cue logistic (stdlib gradient descent)")
-    print(f"train rows used: {len(x_train)}  epochs={args.epochs}")
+    print(
+        f"train rows used: {len(x_train)}  sarcastic={sum(y_train)}  "
+        f"epochs={args.epochs}"
+    )
     model = CueLogistic(epochs=args.epochs, learning_rate=0.3, l2=0.01)
     model.fit(x_train, y_train)
 

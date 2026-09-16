@@ -15,6 +15,7 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass
+from random import Random
 from typing import Iterator, Sequence
 
 from .paths import SPLIT_FILES
@@ -112,6 +113,23 @@ def summarize_split(split: Split) -> dict:
         "char_len": _minmax_mean(char_lens),
         "label_counts": dict(Counter(split.labels)),
     }
+
+
+def sample_split(split: Split, n: int, seed: int = 2023) -> Split:
+    """Shuffle and take ``n`` rows. Train CSVs are label-sorted in places,
+    so slicing ``[:n]`` is a biased subset — always sample instead.
+    """
+    if n < 0:
+        raise ValueError("n must be >= 0")
+    count = min(n, len(split))
+    order = list(range(len(split)))
+    Random(seed).shuffle(order)
+    picked = order[:count]
+    return Split(
+        name=split.name,
+        texts=tuple(split.texts[i] for i in picked),
+        labels=tuple(split.labels[i] for i in picked),
+    )
 
 
 def _minmax_mean(values: Sequence[int]) -> dict:

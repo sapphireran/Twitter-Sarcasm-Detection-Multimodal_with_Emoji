@@ -23,7 +23,7 @@ import _path  # noqa: F401
 
 from sarcasm_toolkit.attention import attention_report
 from sarcasm_toolkit.baseline import CueLogistic, LexiconBaseline, describe_prediction
-from sarcasm_toolkit.dataset import load_split, summarize_split
+from sarcasm_toolkit.dataset import load_split, sample_split, summarize_split
 from sarcasm_toolkit.embeddings import embed_tokens
 from sarcasm_toolkit.metrics import binary_metrics, format_metrics, majority_baseline
 from sarcasm_toolkit.reported import format_reported_table
@@ -61,9 +61,13 @@ def main() -> None:
         print(f"  {title} top attention token: {top['token']!r} ({top['weight']:.3f})")
 
     train = load_split("train")
-    model = CueLogistic(epochs=25, learning_rate=0.3)
-    # 3k rows keeps the walkthrough snappy while still fitting cue weights.
-    model.fit(train.texts[:3000], train.labels[:3000])
+    sampled = sample_split(train, 4000, seed=2023)
+    print(
+        f"\nFitting cue logistic on {len(sampled)} shuffled train rows "
+        f"(sarcastic={sampled.n_sarcastic})"
+    )
+    model = CueLogistic(epochs=30, learning_rate=0.3)
+    model.fit(sampled.texts, sampled.labels)
     lexicon = LexiconBaseline()
 
     payload = {"summaries": summaries, "metrics": {}}

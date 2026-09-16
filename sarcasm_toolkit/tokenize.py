@@ -33,6 +33,8 @@ _TOKEN_RE = re.compile(
 )
 
 _ELONGATION_RE = re.compile(r"(.)\1{2,}")
+_DOUBLE_VOWEL_RE = re.compile(r"([aeiou])\1", re.IGNORECASE)
+_WORD_RE = re.compile(r"[A-Za-z']+")
 _WHITESPACE_RE = re.compile(r"\s+")
 
 
@@ -58,12 +60,24 @@ def normalize_whitespace(text: str) -> str:
 
 
 def has_elongation(text: str) -> bool:
-    """True when a character repeats 3+ times (``loovee``, ``yayyy``)."""
-    return bool(_ELONGATION_RE.search(text.lower()))
+    """True for lengthened spellings: ``yayyy``, ``sooo``, or ``loovee``.
+
+    ``loovee`` only doubles two vowels, so a 3+ repeat rule would miss it.
+    Count a token as elongated when it has a 3+ run *or* two separate
+    doubled vowels.
+    """
+    lowered = text.lower()
+    if _ELONGATION_RE.search(lowered):
+        return True
+    for token in _WORD_RE.findall(lowered):
+        if len(_DOUBLE_VOWEL_RE.findall(token)) >= 2:
+            return True
+    return False
 
 
 def hashtags(tokens: Iterable[str]) -> list[str]:
-    return [token for token in tokens if token.startswith("#")]
+    # Lone "#" is punctuation from the fallback group, not a tag.
+    return [token for token in tokens if token.startswith("#") and len(token) > 1]
 
 
 def mentions(tokens: Iterable[str]) -> list[str]:

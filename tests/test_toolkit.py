@@ -8,7 +8,7 @@ import unittest
 from sarcasm_toolkit.attention import attention_pool, attention_weights, softmax
 from sarcasm_toolkit.baseline import CueLogistic, LexiconBaseline
 from sarcasm_toolkit.cues import CUE_HASHTAGS, extract_cue_features, feature_names
-from sarcasm_toolkit.dataset import load_split, summarize_split
+from sarcasm_toolkit.dataset import Split, load_split, sample_split, summarize_split
 from sarcasm_toolkit.embeddings import average_pool, embed_token, embed_tokens
 from sarcasm_toolkit.metrics import binary_metrics, confusion, majority_baseline
 from sarcasm_toolkit.results import iter_reported_rows, load_reported
@@ -36,7 +36,13 @@ class TokenizeTests(unittest.TestCase):
     def test_elongation(self) -> None:
         self.assertTrue(has_elongation("loovee"))
         self.assertTrue(has_elongation("yayyy"))
+        self.assertTrue(has_elongation("sooo happy"))
         self.assertFalse(has_elongation("love"))
+        self.assertFalse(has_elongation("looking good"))
+
+    def test_lone_hash_is_not_a_hashtag(self) -> None:
+        tokens = tokenize_tweet("wait # what #not")
+        self.assertEqual(hashtags(tokens), ["#not"])
 
     def test_empty(self) -> None:
         self.assertEqual(tokenize_tweet(""), [])
@@ -122,7 +128,12 @@ class EmbeddingTests(unittest.TestCase):
 
 
 class BaselineTests(unittest.TestCase):
-    def test_lexicon_on_obvious_pairs(self) -> None:
+    def test_lexicon_perfect_precision_on_test(self) -> None:
+        split = load_split("test")
+        metrics = binary_metrics(split.labels, LexiconBaseline().predict(split.texts))
+        self.assertEqual(metrics.false_positive, 0)
+        self.assertGreater(metrics.true_positive, 500)
+        self.assertAlmostEqual(metrics.accuracy, 0.807, places=3)
         model = LexiconBaseline()
         self.assertEqual(model.predict_one("I just love Mondays #not"), 1)
         self.assertEqual(model.predict_one("i just imagined you dancing like this"), 0)
@@ -160,6 +171,19 @@ class DatasetTests(unittest.TestCase):
             if emoji_tokens(tokenize_tweet(example.text)):
                 with_emoji += 1
         self.assertGreaterEqual(with_emoji / len(split), 0.95)
+
+    def test_sample_split_is_mixed(self) -> None:
+        train = load_split("train")
+        # Prefix of train is literal-heavy; sampling must not use that prefix.
+        prefix = Split(
+            name="prefix",
+            texts=train.texts[:3000],
+            labels=train.labels[:3000],
+        )
+        sampled = sample_split(train, 3000, seed=2023)
+        self.assertGreater(sampled.n_sarcastic, 500)
+        self.assertLess(prefix.n_sarcastic, sampled.n_sarcastic)
+        self.assertEqual(len(sampled), 3000)
 
     def test_summarize_keys(self) -> None:
         summary = summarize_split(load_split("test"))

@@ -51,14 +51,24 @@ Keras `evaluate` on the saved models (same notebook) reported:
 * multi: test loss 0.3200 / acc 0.8735; subtest loss 0.2852 / acc 0.8921
 * single: test loss 0.3118 / acc 0.8635; subtest loss 0.3056 / acc 0.8669
 
-## How to read the cue baseline against this table
+## Cue floor measured by the new examples
 
-`examples/04_lexicon_baseline.py` will look *too good* on test/subtest
-because those splits are full of `#not` / `#sarcasm` on the positive
-class. That is a property of distant supervision, not a bug in the
-script. The BiLSTM result is interesting when it beats that floor
-*and* when it classifies sarcastic tweets that have no cue tag (see
-the train examples in [dataset.md](dataset.md)).
+`examples/04_lexicon_baseline.py` (predict sarcastic iff a cue hashtag is
+present) on this checkout:
+
+| Split | Acc | Precision | Recall | F1 |
+| --- | ---: | ---: | ---: | ---: |
+| train | 0.6241 | 0.9753 | 0.1962 | 0.3267 |
+| test | 0.8070 | 1.0000 | 0.6140 | 0.7608 |
+| subtest | 0.8633 | 1.0000 | 0.7791 | 0.8758 |
+
+Precision is essentially perfect: if the tweet says `#not` / `#sarcasm`,
+it is sarcastic in this dump. Recall is the tell — only 19.6% of
+*train* sarcastic tweets wear the tag, vs 61.4% of test and 77.9% of
+subtest. The BiLSTM’s test accuracy (0.8735 multi) still clears this
+0.807 lexicon floor; that gap is the part that is not just reading the
+hashtag. The BiLSTM is more interesting on sarcastic tweets that have
+no cue tag (see the train examples in [dataset.md](dataset.md)).
 
 ## Plot
 

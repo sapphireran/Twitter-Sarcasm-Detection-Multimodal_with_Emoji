@@ -17,7 +17,7 @@ Nothing here talks to social-media APIs. All examples read the local
 from .attention import attention_pool, softmax
 from .baseline import CueLogistic, LexiconBaseline
 from .cues import CUE_HASHTAGS, extract_cue_features, feature_names
-from .dataset import Split, iter_examples, load_split, summarize_split
+from .dataset import Split, iter_examples, load_split, sample_split, summarize_split
 from .metrics import binary_metrics, format_metrics
 from .paths import DATASET_DIR, REPO_ROOT
 from .tokenize import tokenize_tweet
@@ -34,6 +34,7 @@ __all__ = [
     "format_metrics",
     "iter_examples",
     "load_split",
+    "sample_split",
     "softmax",
     "summarize_split",
     "tokenize_tweet",
