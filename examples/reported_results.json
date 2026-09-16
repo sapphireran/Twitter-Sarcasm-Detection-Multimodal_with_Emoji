@@ -1,0 +1,65 @@
+{
+  "source": "get_metrics_of_models.ipynb (executed 2023-06-05/06)",
+  "course": "UCPH Computational Cognitive Science 2 (2023)",
+  "task": "binary sarcasm detection on Twitter text + emoji",
+  "splits": {
+    "test": {"n": 2000, "sarcastic": 1000, "literal": 1000},
+    "subtest": {"n": 278, "sarcastic": 172, "literal": 106}
+  },
+  "modes": {
+    "single": "GloVe Twitter 200d word average / embedding matrix only",
+    "multi": "word vectors concatenated or mixed with emoji2vec"
+  },
+  "models": {
+    "svm": {
+      "test": {
+        "single": {"acc": 0.769, "f1": 0.772189349112426, "recall": 0.783, "precision": 0.7616731517509727},
+        "multi": {"acc": 0.763, "f1": 0.7662721893491123, "recall": 0.777, "precision": 0.7558365758754864}
+      },
+      "subtest": {
+        "single": {"acc": 0.8129496402877698, "f1": 0.8522727272727274, "recall": 0.872093023255814, "precision": 0.8333333333333334},
+        "multi": {"acc": 0.8237410071942446, "f1": 0.8528528528528528, "recall": 0.8255813953488372, "precision": 0.8819875776397516}
+      }
+    },
+    "decision_tree": {
+      "test": {
+        "single": {"acc": 0.7265, "f1": 0.7556945064761054, "recall": 0.846, "precision": 0.6828087167070218},
+        "multi": {"acc": 0.7295, "f1": 0.7566351776878093, "recall": 0.841, "precision": 0.687653311529027}
+      },
+      "subtest": {
+        "single": {"acc": 0.7769784172661871, "f1": 0.8342245989304812, "recall": 0.9069767441860465, "precision": 0.7722772277227723},
+        "multi": {"acc": 0.7985611510791367, "f1": 0.8461538461538463, "recall": 0.8953488372093024, "precision": 0.8020833333333334}
+      }
+    },
+    "random_forest": {
+      "test": {
+        "single": {"acc": 0.8145, "f1": 0.8232491662696524, "recall": 0.864, "precision": 0.7861692447679709},
+        "multi": {"acc": 0.818, "f1": 0.8255033557046979, "recall": 0.861, "precision": 0.7928176795580111}
+      },
+      "subtest": {
+        "single": {"acc": 0.8057553956834532, "f1": 0.8524590163934426, "recall": 0.9069767441860465, "precision": 0.8041237113402062},
+        "multi": {"acc": 0.8525179856115108, "f1": 0.8838526912181304, "recall": 0.9069767441860465, "precision": 0.861878453038674}
+      }
+    },
+    "gradient_boosting": {
+      "test": {
+        "single": {"acc": 0.746, "f1": 0.75146771037182, "recall": null, "precision": null},
+        "multi": {"acc": 0.7475, "f1": 0.7528144884973079, "recall": null, "precision": null}
+      },
+      "subtest": {
+        "single": {"acc": 0.7949640287769785, "f1": 0.8376068376068376, "recall": null, "precision": null},
+        "multi": {"acc": 0.7949640287769785, "f1": 0.8357348703170029, "recall": null, "precision": null}
+      }
+    },
+    "bilstm_attention": {
+      "test": {
+        "single": {"acc": 0.8635, "f1": 0.8655834564254061, "recall": 0.879, "precision": 0.8525703200775946},
+        "multi": {"acc": 0.8735, "f1": 0.8685714285714285, "recall": 0.836, "precision": 0.9037837837837838}
+      },
+      "subtest": {
+        "single": {"acc": 0.8669064748201439, "f1": 0.8939828080229226, "recall": 0.9069767441860465, "precision": 0.8813559322033898},
+        "multi": {"acc": 0.8920863309352518, "f1": 0.9107142857142858, "recall": 0.8895348837209303, "precision": 0.9329268292682927}
+      }
+    }
+  }
+}
