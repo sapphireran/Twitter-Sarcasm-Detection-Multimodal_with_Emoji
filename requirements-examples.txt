@@ -1,0 +1,2 @@
+# Enough to run examples/ and tests/ on this clone.
+numpy>=1.24

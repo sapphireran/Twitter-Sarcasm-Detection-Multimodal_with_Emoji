@@ -1,0 +1,11 @@
+# Original 2023 notebook stack. Not required for examples/.
+tensorflow>=2.8,<2.12
+keras-preprocessing
+gensim>=3.8,<4
+nltk
+emoji
+pandas
+scikit-learn
+joblib
+matplotlib
+numpy
