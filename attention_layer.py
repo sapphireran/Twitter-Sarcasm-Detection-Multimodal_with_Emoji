@@ -1,3 +1,8 @@
+"""Raffel-style temporal attention used on top of the Bi-LSTM.
+
+NumPy walkthrough with the same equations: `examples/attention_walkthrough.py`.
+"""
+
 from tensorflow.keras.layers import Layer
 from tensorflow.keras import backend as K
 from tensorflow.keras import initializers, regularizers, constraints

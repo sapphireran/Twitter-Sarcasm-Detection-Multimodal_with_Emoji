@@ -1,3 +1,10 @@
+"""Tweet IO, mean-pooling, and the Keras embedding-matrix builder.
+
+Coursework helpers used by the notebooks. A TensorFlow-free walkthrough
+of the same ideas lives in `examples/` (see `examples/README.md` and
+`docs/architecture.md`).
+"""
+
 import emoji
 import gensim
 import numpy as np

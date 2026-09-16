@@ -1,0 +1,4 @@
+# Minimal deps for docs/examples and unit tests.
+# The example scripts are written against the Python standard library + NumPy
+# so they run without GloVe, TensorFlow, or NLTK.
+numpy>=1.19

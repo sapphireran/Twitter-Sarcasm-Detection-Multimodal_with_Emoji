@@ -1,3 +1,10 @@
+"""Bi-LSTM + Raffel attention classifier used in the 2023 notebooks.
+
+`PrepModel` is the graph only; there is no fit loop in this file.
+Architecture notes: `docs/architecture.md`. A NumPy attention demo:
+`examples/attention_walkthrough.py`.
+"""
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dropout, Activation, Bidirectional, Dense, Flatten, Embedding
 from tensorflow.python.keras.layers.embeddings import Embedding
