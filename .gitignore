@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# Notebooks / editors
+.ipynb_checkpoints/
+.idea/
+.vscode/
+
+# Local experiment output (regenerate with examples/*.py)
+examples/output/
+*.png
+!docs/figures/.gitkeep
+
+# Large embedding files that are not shipped in this repo
+glove.twitter.27B.200d.bin
+glove_tt.txt
+glove*.zip
+
+# OS
+.DS_Store
+Thumbs.db
