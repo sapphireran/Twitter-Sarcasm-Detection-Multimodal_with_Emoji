@@ -7,6 +7,8 @@ range list is enough to study the checked-in dump.
 
 from __future__ import annotations
 
+import re
+
 # Common emoji + dingbat / enclosed-alphanumeric / extra-symbol blocks that
 # show up in the 2023 Twitter dump. Keep as a class string so tweet_tokenize
 # can splice it into a larger regex.
@@ -21,6 +23,15 @@ EMOJI_CHAR_CLASS = (
 )
 
 HIGH_CODEPOINT_FLOOR = 0x2710  # matches the inspect filter described in docs
+_VS16 = "\ufe0f"
+_GLUE_VS = re.compile(
+    r"(["
+    r"\U0001F300-\U0001FAFF"
+    r"\U00002700-\U000027BF"
+    r"\U00002600-\U000026FF"
+    r"\U00002300-\U000023FF"
+    r"])\s+\ufe0f"
+)
 
 
 def is_emoji_char(char: str) -> bool:
@@ -37,18 +48,26 @@ def is_emoji_char(char: str) -> bool:
     )
 
 
+def _is_primary_emoji(char: str) -> bool:
+    return is_emoji_char(char) and char not in {"\u200d", _VS16, "\u20e3"}
+
+
 def extract_emojis(text: str) -> list[str]:
-    """Return emoji grapheme clusters (ZWJ sequences kept together)."""
+    """Return emoji grapheme clusters (ZWJ sequences kept together).
+
+    Twitter dumps often put a space before U+FE0F (`☺ ️`). Glue that back
+    onto the preceding pictograph so PMI tables do not grow a fake `️` row.
+    """
+    text = _GLUE_VS.sub(lambda m: m.group(1) + _VS16, text)
     out: list[str] = []
     buf: list[str] = []
 
     def flush() -> None:
-        if buf:
-            # Drop lone variation selectors / ZWJ leftovers.
-            cluster = "".join(buf)
-            if any(is_emoji_char(c) and ord(c) >= 0x2300 for c in buf):
-                out.append(cluster)
-            buf.clear()
+        if not buf:
+            return
+        if any(_is_primary_emoji(c) for c in buf):
+            out.append("".join(buf))
+        buf.clear()
 
     for char in text:
         if is_emoji_char(char):

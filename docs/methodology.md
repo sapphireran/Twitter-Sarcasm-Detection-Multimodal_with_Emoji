@@ -85,7 +85,7 @@ There is no “emoji-only” deep model, no late fusion (separate emoji encoder 
 2. **Lowercasing after TweetTokenizer.** Hashtags become `#not` still, emoji stay, `<user>` stays.
 3. **Post padding.** Attention bias `b` is length-tied; trailing pads can still receive mass unless the mask is passed. `ReadOpen` does not build a Keras mask. Whether `Embedding` was created with `mask_zero=True` is **no** in `PrepModel`. Pad tokens are real steps. Attention can look at padding. That is a real limitation of the shipped graph.
 4. **Shuffling inside `ml_read_data`.** Fine for i.i.d. sklearn fits; do not use it if you need aligned ids across scripts without saving arrays.
-5. **Train / test leak of 48 strings.** Reported in [dataset.md](dataset.md). Methodology-wise, a cleaner rerun would drop those 48 from test.
+5. **Train / test leak.** 48 raw-line collisions, **242 after comma flatten** (the view `ReadOpen` uses). Reported in [dataset.md](dataset.md). A cleaner rerun would drop every flattened test string that appears in train.
 
 ## Recommended local rerun (modern TF)
 

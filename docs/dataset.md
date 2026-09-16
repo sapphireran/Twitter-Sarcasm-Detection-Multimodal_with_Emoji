@@ -22,23 +22,25 @@ Train is slightly skewed toward the negative class. Test was balanced on purpose
 
 ## How the splits relate
 
-Computed from the checked-in CSVs (see `examples/inspect_dataset.py`):
+Computed from the checked-in CSVs (see `examples/inspect_dataset.py` and `docs/generated/dataset_report.md`):
 
-- **Subtest ⊂ test.** All 278 subtest strings appear in `test_sentence.csv`. Subtest is the subset of test tweets that contain at least one codepoint above U+2710 (a cheap “looks like emoji / dingbat / extra symbol” filter). That is why notebooks treat subtest as the *emoji-conditioned* evaluation, not as a third independent draw.
-- **Train ≉ test.** 48 test strings also appear in train (22 unique train tweets are duplicated inside train itself). That is a small leak (~2.4% of test). It does not change the ranking of models in the 2023 tables, but it does mean test accuracy is a slightly optimistic estimate.
+- **Subtest ⊂ test.** All 278 subtest strings appear in `test_sentence.csv`. Subtest is almost the set of test tweets that contain an extracted emoji (278/278) or a codepoint above U+2710 (274/278). Four extra rows are emoji in the lower dingbat / white-smiling-face range. Notebooks treat subtest as the *emoji-conditioned* evaluation, not as a third independent draw.
+- **Train ≉ test, and comma-flatten makes it worse.** On raw file lines, 48 test strings already appear in train. After the same `split(',')` flatten `ReadOpen` uses, **242 / 2000** test strings collide with a train string (47 of those sit in subtest). Typical extras are tweets that were stored with CSV quoting / commas on one side and flattened on the other — the *model* sees them as identical. There are also 36 duplicate rows inside train after flatten (39744 unique).
 - Mentions in train are anonymized as the token `<user>` (9,433 training lines). Test and subtest have **zero** `<user>` tokens — a domain shift the frozen GloVe row for `<user>` cannot help at eval time.
 
 ## Surface statistics (train)
 
 | Cue | All train | Sarcastic | Non-sarcastic |
 | --- | ---: | ---: | ---: |
-| Contains `#` | 8,502 | 4,929 | 3,573 |
-| Contains `#not` (word boundary) | 3,188 | **3,105** | 83 |
+| Contains `#` (tweet tokenizer) | 8,502 | — | — |
+| Contains `#not` as a hashtag token | 3,188 | **3,105** | 83 |
 | Contains `#sarcas*` | 287 | (almost all positive) | — |
 | Contains `<user>` | 9,433 | — | — |
 | High-codepoint characters | 5,360 | — | — |
-| Mean whitespace tokens | 16.5 | — | — |
-| Max whitespace tokens | 51 | — | — |
+| Extracted emoji (after VS16 glue) | 5,484 | — | — |
+| Mean Tweet-aware tokens | 17.88 | — | — |
+| Max Tweet-aware tokens | 57 | — | — |
+| Mean whitespace tokens | 16.46 | — | — |
 
 `#not` is the strongest single lexical fire alarm in this dump. A model that only looks at embeddings can still latch onto the GloVe neighborhood of `not` / `#not` rather than “understanding” irony. The lexical baseline in `examples/lexical_baseline.py` makes that shortcut explicit so the neural results have a floor to beat.
 

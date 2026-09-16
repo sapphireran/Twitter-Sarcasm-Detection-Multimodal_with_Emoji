@@ -43,7 +43,7 @@ def analyze(
             emoji_rows[emo].append(label)
         for i, a in enumerate(unique):
             for b in unique[i + 1 :]:
-                pair_counts[(a, b)] += 1
+                pair_counts[tuple(sorted((a, b)))] += 1
 
     rows: list[dict[str, float | str | int]] = []
     for emo, labels in emoji_rows.items():

@@ -58,7 +58,7 @@ Full tables and caveats: [docs/results.md](docs/results.md).
 | `dataset/test_*.csv` | 2,000 | 1,000 | 1,000 | Balanced; 48 tweets also appear in train |
 | `dataset/subtest_*.csv` | 278 | 172 | 106 | **Exact subset of test** with high-codepoint (emoji-like) characters |
 
-`#not` is a loud lexical cue: 3,105 sarcastic training tweets contain it versus 83 non-sarcastic ones. That is useful and also a leakage-shaped shortcut. The examples suite measures it instead of hiding it.
+`#not` is a loud lexical cue: 3,105 sarcastic training tweets contain it versus 83 non-sarcastic ones. A cue-only logistic model hits **64.1% test acc / 78.8% subtest acc** — the spelling floor the neural tables have to beat. After `ReadOpen`’s comma flatten, 242 test strings also appear in train; docs call that out instead of hiding it.
 
 Details: [docs/dataset.md](docs/dataset.md).
 

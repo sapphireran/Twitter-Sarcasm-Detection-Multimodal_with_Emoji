@@ -48,9 +48,19 @@ Multi-modal test **loss is slightly worse** than single-modal (0.320 vs 0.312) w
 
 ## Lexical floor (recomputed here)
 
-`examples/lexical_baseline.py` trains L2 logistic regression on hand-built cues (`#not`, `#sarcasm`, elongated words, contrast templates, emoji faces, punctuation). It is an honest “how much of this task is spelling?” check.
+`examples/lexical_baseline.py` trains L2 logistic regression on hand-built cues (`#not`, `#sarcasm`, elongated words, contrast templates, emoji faces, punctuation). Recomputed on the checked-in CSVs (see `docs/generated/lexical_baseline.md`):
 
-Run the script for the current numbers; they belong in `docs/generated/` after `inspect_dataset.py` / the baseline write their reports. Expect the `#not` feature to dominate. A model that never sees embeddings but sees `#not` will already look strong on this dump — which is why the neural gains on **emoji-only** subtest are the more interesting claim.
+| Split | Acc | Prec | Rec | F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Train | 0.665 | 0.688 | 0.511 | 0.587 |
+| Test | 0.641 | 0.636 | 0.657 | 0.646 |
+| Subtest | 0.788 | 0.827 | 0.831 | 0.829 |
+
+`#not` is the heaviest standardized weight (+1.18). Mentions push *against* sarcasm (−0.48) because `<user>` lives only on (mostly sincere) train rows and is absent at test — the cue is a split artifact, not a linguistic one.
+
+64% test acc is the spelling floor. The multi-modal BiLSTM at 87% still has ~23 points of room that order + distributed features have to explain. On subtest the floor jumps to 79% because `#not` is denser there (110/172 sarcastic rows); the BiLSTM’s 89% is a smaller but real gap.
+
+A model that never sees embeddings but sees `#not` already looks competent on this dump — which is why the neural gains on the **emoji slice beyond hashtags** are the claim worth defending.
 
 ## What not to claim
 
