@@ -1,0 +1,13 @@
+# Historical 2023 experiment stack. Not installed by the archive lab.
+# The checked-in notebooks expect something close to this, plus
+# Stanford GloVe Twitter 27B 200d (not in this repo).
+tensorflow>=2.8,<2.12
+gensim>=4.0
+nltk>=3.7
+emoji>=2.0
+keras-preprocessing>=1.1
+scikit-learn>=1.1
+pandas>=1.5
+joblib>=1.2
+numpy>=1.23
+matplotlib>=3.6
