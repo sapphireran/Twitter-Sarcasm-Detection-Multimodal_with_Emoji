@@ -1,0 +1,13 @@
+# Full experiment stack used by the 2023 notebooks and training scripts.
+# Pin loosely: the original run used TensorFlow 2.x + Keras 2 wrappers.
+
+numpy>=1.23
+pandas>=1.5
+scikit-learn>=1.2
+joblib>=1.2
+nltk>=3.8
+emoji>=2.2
+gensim>=4.3
+keras-preprocessing>=1.1
+tensorflow>=2.10,<2.16
+matplotlib>=3.7
