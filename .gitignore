@@ -1,0 +1,25 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+
+.venv/
+venv/
+env/
+
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Large embedding files that are downloaded locally, not shipped here
+glove.twitter.27B.*
+glove_tt.txt
+*.glove.bin
+
+.DS_Store
+.idea/
+.vscode/
