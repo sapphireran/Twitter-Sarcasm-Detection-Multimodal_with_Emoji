@@ -26,11 +26,14 @@ From the repository root:
 
 ```bash
 python3 examples/inspect_dataset.py
+python3 examples/run_real_tokens.py
 python3 examples/run_pipeline.py
 python3 examples/run_attention.py
 python3 examples/run_toy_classifier.py
 python3 -m examples.run_all
 python3 -m unittest discover -s tests -v
+
+Measured numbers from a full run: [WALKTHROUGH.md](WALKTHROUGH.md).
 ```
 
 ## Scripts

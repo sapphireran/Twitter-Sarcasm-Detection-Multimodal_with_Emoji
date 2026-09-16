@@ -83,4 +83,4 @@ The metrics notebook draws a grouped bar chart of accuracy and F1 for SVM, DT, R
 - Newer TensorFlow. The SavedModels use `module_wrapper_*` layers from TF 2.x wrapping Keras 2. They may refuse to load.
 - A different subtest definition. The 278-row file is a curated slice; resampling test would not reproduce those columns.
 
-The `examples/` toy classifier is **not** in this table. It exists to show that fusion can separate a 16-tweet corpus, not to compete with the 2023 numbers.
+The `examples/` toy classifier is **not** in this table. It exists to show that fusion can separate a 16-tweet corpus, not to compete with the 2023 numbers. On a measured run it matched the *direction* of the multimodal LSTM (same accuracy, higher precision, larger gap on `i love mondays` vs `i love mondays 😒 #not`). See [examples/WALKTHROUGH.md](../examples/WALKTHROUGH.md).

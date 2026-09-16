@@ -19,7 +19,7 @@ A bag of GloVe averages can see the positive words `love` / `getting` / `shots`.
 
 ## Results at a glance
 
-Numbers are copied from the executed cells in `get_metrics_of_models.ipynb`. **Single** = GloVe tweet averages only. **Multi** = GloVe concatenated with emoji2vec (baselines) or a mixed embedding table (Bi-LSTM). The **subtest** is 278 tweets that are unusually rich in emoji and sarcasm markers.
+Numbers are copied from the executed cells in `get_metrics_of_models.ipynb`. **Single** = GloVe tweet averages only. **Multi** = GloVe concatenated with emoji2vec (baselines) or a mixed embedding table (Bi-LSTM). The **subtest** is 278 tweets that are 99.3% emoji-bearing and heavier on `#not` / `#sarcastictweet`.
 
 | Model | Test acc (single / multi) | Subtest acc (single / multi) | Test F1 (single / multi) | Subtest F1 (single / multi) |
 | --- | --- | --- | --- | --- |

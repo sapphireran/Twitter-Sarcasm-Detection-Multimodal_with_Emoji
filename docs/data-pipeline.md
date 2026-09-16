@@ -26,7 +26,15 @@ Labels:
 
 The subtest is **not** a random subsample of test. It is a small, sarcasm-skewed, emoji-rich hold-out. Treat it as a stress test for the emoji channel, not as a second i.i.d. test set.
 
-Roughly 5,223 / 39,780 training tweets contain at least one character in the emoji / dingbat ranges used by `examples/inspect_dataset.py`. Many more tweets use textual emoji leftovers or hashtags only.
+`examples/inspect_dataset.py` measures the shift on the checked-in CSVs:
+
+| Split | emoji rate | hashtag rate | `#not` / `#sarcasm` / `#sarcastictweet` / `#yeahright` |
+| --- | ---: | ---: | ---: |
+| train | 13.7% | 21.3% | 9.2% |
+| test | 13.8% | 46.6% | 30.5% |
+| subtest | **99.3%** | 55.8% | 47.8% |
+
+The subtest is almost entirely emoji-bearing. That is why Fusion A and Fusion B move this slice and barely move the balanced test set.
 
 ## Stage 1 — `ReadOpen(filename, Labelfile)`
 

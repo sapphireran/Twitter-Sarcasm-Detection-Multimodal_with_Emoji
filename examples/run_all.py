@@ -12,10 +12,12 @@ sys.path.insert(0, str(ROOT))
 from examples.inspect_dataset import main as inspect_main
 from examples.run_attention import main as attention_main
 from examples.run_pipeline import main as pipeline_main
+from examples.run_real_tokens import main as real_tokens_main
 from examples.run_toy_classifier import main as classifier_main
 
 STEPS = (
     ("examples/inspect_dataset.py", inspect_main),
+    ("examples/run_real_tokens.py", real_tokens_main),
     ("examples/run_pipeline.py", pipeline_main),
     ("examples/run_attention.py", attention_main),
     ("examples/run_toy_classifier.py", classifier_main),

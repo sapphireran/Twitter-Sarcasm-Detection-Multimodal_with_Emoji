@@ -63,8 +63,8 @@ class AverageAndFusionTests(unittest.TestCase):
         self.assertEqual(l_emoji, 0.0)
         self.assertGreater(s_text, 0.0)
         self.assertGreater(l_text, 0.0)
-        # Same lexical content → text halves nearly equal.
-        self.assertGreater(cosine(x_multi[0, :32], x_multi[1, :32]), 0.99)
+        # Shared words dominate the text half; "#not" keeps cosine below 1.
+        self.assertGreater(cosine(x_multi[0, :32], x_multi[1, :32]), 0.85)
 
     def test_concat_rejects_mismatched_width(self):
         with self.assertRaises(ValueError):

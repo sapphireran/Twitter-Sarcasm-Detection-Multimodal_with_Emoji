@@ -57,10 +57,10 @@ Single-modal ablation is the same function with `get_emoji2vec=False`: OOV rows 
 
 ## Why the subtest moves more than the test set
 
-| Set | Sarcasm rate | Emoji / marker density | Observed multi-modal acc lift (RF / Bi-LSTM) |
-| --- | --- | --- | --- |
-| test (2,000) | 50% | mixed | +0.4 / +1.0 |
-| subtest (278) | 62% | high (`#not`, `😒`, `💉`, `#sarcastictweet`) | +4.7 / +2.5 |
+| Set | Sarcasm rate | Emoji rate | Marker rate | RF / Bi-LSTM acc lift |
+| --- | --- | --- | --- | --- |
+| test (2,000) | 50% | 13.8% | 30.5% | +0.4 / +1.0 |
+| subtest (278) | 62% | **99.3%** | 47.8% | +4.7 / +2.5 |
 
 If the emoji channel were noise, the subtest would not systematically prefer the multimodal column. If it were a universal free lunch, the balanced test set would move by a similar amount. The recorded pattern matches "the second channel is sparse and useful when present."
 

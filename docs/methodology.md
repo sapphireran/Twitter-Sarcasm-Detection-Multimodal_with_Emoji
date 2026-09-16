@@ -86,7 +86,7 @@ c = \sum_{t=1}^{T} \alpha_t h_t
 Three numbers matter:
 
 1. **Test accuracy / F1** on 2,000 balanced tweets. Headline number.
-2. **Subtest accuracy / F1** on 278 tweets that lean sarcastic and emoji-heavy. This is the slice where Recipe A and Recipe B are supposed to help.
+2. **Subtest accuracy / F1** on 278 tweets that are 61.9% sarcastic and 99.3% emoji-bearing. This is the slice where Recipe A and Recipe B are supposed to help.
 3. **Single vs multi** for every model, so a lift cannot be explained by "we trained a bigger classifier."
 
 Notebooks also dump precision and recall. Random forest and the Bi-LSTM both recall sarcasm more aggressively than they precision it on the main test set; the multimodal Bi-LSTM is the exception (precision 0.904 vs recall 0.836 on test). See [results.md](results.md).

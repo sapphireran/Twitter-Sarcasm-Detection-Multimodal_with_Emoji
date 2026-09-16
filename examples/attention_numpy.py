@@ -87,6 +87,7 @@ def peaked_weights(steps: int, features: int, peak: int) -> AttentionWeights:
     if not 0 <= peak < steps:
         raise ValueError("peak is out of range")
     W = np.ones((features,), dtype=np.float64)
-    b = np.zeros((steps,), dtype=np.float64)
+    # Negative bias on every other step so tanh does not flatten the peak.
+    b = np.full((steps,), -2.5, dtype=np.float64)
     b[peak] = 2.5
     return AttentionWeights(W=W, b=b)

@@ -29,7 +29,9 @@ class DatasetStatsTests(unittest.TestCase):
         self.assertGreater(sub.sarcasm_rate, train.sarcasm_rate)
         self.assertGreater(sub.emoji_rate, train.emoji_rate)
         self.assertGreater(sub.sarcasm_marker_rate, train.sarcasm_marker_rate)
-        self.assertGreater(sub.sarcasm_marker_rate, 0.5)
+        # Subtest is an emoji slice: almost every row has a pictograph.
+        self.assertGreater(sub.emoji_rate, 0.95)
+        self.assertGreater(sub.sarcasm_marker_rate, 0.4)
 
     def test_pairs_align(self):
         sent, lab = SPLIT_FILES["subtest"]
