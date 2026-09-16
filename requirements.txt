@@ -1,0 +1,11 @@
+# Full 2023 notebook stack. The examples/ tree only needs numpy.
+numpy>=1.23
+pandas>=1.5
+scikit-learn>=1.2
+joblib>=1.2
+gensim>=4.3
+nltk>=3.8
+emoji>=2.2
+tensorflow>=2.11
+keras-preprocessing>=1.1.2
+matplotlib>=3.7
