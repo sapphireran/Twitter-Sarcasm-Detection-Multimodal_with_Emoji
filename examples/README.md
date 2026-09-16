@@ -7,16 +7,16 @@ TensorFlow, or the sklearn pickles.
 Run everything from the repository root:
 
 ```bash
-python examples/inspect_dataset.py
-python examples/preprocess_walkthrough.py
-python examples/emoji_signal.py
-python examples/heuristic_baseline.py
-python examples/attention_demo.py
-python examples/report_metrics.py
+python3 examples/inspect_dataset.py
+python3 examples/preprocess_walkthrough.py
+python3 examples/emoji_signal.py
+python3 examples/heuristic_baseline.py
+python3 examples/attention_demo.py
+python3 examples/report_metrics.py
 ```
 
-`python examples/run_all.py` executes the same set and fails if any
-script exits non-zero.
+`python3 examples/run_all.py` executes the same set (via
+`sys.executable`) and fails if any script exits non-zero.
 
 ## What each script is for
 
@@ -50,15 +50,15 @@ notebooks used `nltk.TweetTokenizer`. Counts will differ slightly
 ## Flags worth knowing
 
 ```bash
-python examples/inspect_dataset.py --json
-python examples/preprocess_walkthrough.py --split subtest --n 8
-python examples/heuristic_baseline.py --show-errors --split train --n-errors 6
-python examples/report_metrics.py --markdown
-python examples/report_metrics.py --csv
+python3 examples/inspect_dataset.py --json
+python3 examples/preprocess_walkthrough.py --split subtest --n 8
+python3 examples/heuristic_baseline.py --show-errors --split train --n-errors 6
+python3 examples/report_metrics.py --markdown
+python3 examples/report_metrics.py --csv
 ```
 
 ## Tests
 
 ```bash
-python -m unittest discover -s examples/tests -v
+python3 -m unittest discover -s examples/tests -v
 ```

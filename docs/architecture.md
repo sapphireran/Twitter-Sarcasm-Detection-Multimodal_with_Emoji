@@ -138,6 +138,14 @@ A model can win on test with hashtags and contrastive wording alone.
 The subtest WE−W gap is the project's evidence that emoji2vec is not
 just dead weight.
 
+A binary `has_emoji` feature would be the wrong control. On train,
+emoji presence is slightly *anti*-correlated with sarcasm; on
+test/subtest, emoji tweets *without* a sarcasm hashtag are still
+below the base rate (`examples/emoji_signal.py`). What WE can use
+is **which** emoji appeared — 😒 and 😅 lean sarcastic, 😘 and ❤
+lean sincere. Mean-pooling those 200-d rows is a blunt way to get
+that; the LSTM can also put them next to "I love …".
+
 ## Training / evaluation flow (original)
 
 ```

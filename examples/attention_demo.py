@@ -10,7 +10,7 @@ The Keras layer is:
 This script builds a 4-step toy sequence, prints the scores, and
 checks that a fully-masked step gets ~zero mass.
 
-    python examples/attention_demo.py
+    python3 examples/attention_demo.py
 """
 
 from __future__ import annotations

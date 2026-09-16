@@ -4,8 +4,8 @@
 This is a pedagogical ceiling, not a 2023 notebook result. It answers:
 how far do you get if you only trust #not / #sarcasm / #sarcastic(tweet)?
 
-    python examples/heuristic_baseline.py
-    python examples/heuristic_baseline.py --show-errors --split test --n-errors 8
+    python3 examples/heuristic_baseline.py
+    python3 examples/heuristic_baseline.py --show-errors --split test --n-errors 8
 """
 
 from __future__ import annotations

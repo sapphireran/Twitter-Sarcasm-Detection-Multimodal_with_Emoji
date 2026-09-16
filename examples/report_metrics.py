@@ -5,9 +5,9 @@ Numbers are copied from get_metrics_of_models.ipynb and
 baseline_models.ipynb outputs. This script does not load pickles or
 SavedModels.
 
-    python examples/report_metrics.py
-    python examples/report_metrics.py --markdown
-    python examples/report_metrics.py --csv
+    python3 examples/report_metrics.py
+    python3 examples/report_metrics.py --markdown
+    python3 examples/report_metrics.py --csv
 """
 
 from __future__ import annotations

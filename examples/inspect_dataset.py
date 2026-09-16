@@ -4,8 +4,8 @@
 This is the first walkthrough: confirm the CSVs the notebooks trained
 on, without GloVe or TensorFlow.
 
-    python examples/inspect_dataset.py
-    python examples/inspect_dataset.py --json
+    python3 examples/inspect_dataset.py
+    python3 examples/inspect_dataset.py --json
 """
 
 from __future__ import annotations

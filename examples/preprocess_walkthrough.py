@@ -6,8 +6,8 @@ the same way `Preprocess` does (fit on texts, sequences, post-pad),
 and prints the `count` vs `vocab+1` mismatch described in
 docs/code-map.md.
 
-    python examples/preprocess_walkthrough.py
-    python examples/preprocess_walkthrough.py --split test --n 8
+    python3 examples/preprocess_walkthrough.py
+    python3 examples/preprocess_walkthrough.py --split test --n 8
 """
 
 from __future__ import annotations

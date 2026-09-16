@@ -89,6 +89,39 @@ balanced test set.
 On test, 594 / 1,000 sarcastic tweets (59.4%) carry an explicit tag.
 The other 40.6% have to be recovered from wording and emoji alone.
 
+## Emoji are not a sarcasm switch
+
+`examples/emoji_signal.py` (walkthrough tokenizer, not NLTK) measures
+raw association. The useful slice is **emoji present, sarcasm hashtag
+absent** — that is where emoji2vec has to do work a tag cannot.
+
+| Split | Base P(sarc) | P(sarc \| emoji) | P(sarc \| emoji, no tag) | n(emoji, no tag) |
+| --- | ---: | ---: | ---: | ---: |
+| train | 0.465 | 0.411 | 0.336 | 5,051 |
+| test | 0.500 | 0.606 | 0.277 | 155 |
+| subtest | 0.619 | 0.619 | 0.289 | 149 |
+
+On train, having any emoji is slightly *anti*-correlated with the
+positive label (phi ≈ −0.044). On test/subtest, emoji-only tweets
+are still well below the base rate. Identity matters more than
+presence:
+
+| Token (test) | Tweets | P(sarc \| token) |
+| --- | ---: | ---: |
+| 😒 | 33 | 0.879 |
+| 😅 | 16 | 0.875 |
+| 🔫 | 11 | 1.000 |
+| 😂 | 27 | 0.407 |
+| 😘 (train) | 195 | 0.174 |
+| ❤ (train) | 428 | 0.220 |
+
+That is the point of a 200-d emoji vector instead of a binary
+`has_emoji` feature: 😒 after “I love …” is a different signal from
+😘 after a sincere compliment. The walkthrough tokenizer also emits
+a lone variation selector `️` for some composed emoji; NLTK
+`TweetTokenizer` usually keeps those attached. Treat the top-token
+table as directional, not as a gold emoji vocabulary.
+
 ## Example tweets
 
 These are real lines from the checked-in files, truncated for
@@ -143,5 +176,5 @@ word index, pads on the right, and writes a `(vocab, 200)` embedding
 matrix. OOV words are scanned with `emoji.emoji_list`; any extracted
 emoji are averaged from emoji2vec when `get_emoji2vec=True`.
 
-Run `python examples/preprocess_walkthrough.py` to see those steps on
+Run `python3 examples/preprocess_walkthrough.py` to see those steps on
 a handful of tweets without loading GloVe.

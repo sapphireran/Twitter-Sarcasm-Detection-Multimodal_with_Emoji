@@ -57,14 +57,14 @@ tables.
 ## Run the examples (no GloVe required)
 
 ```bash
-python examples/inspect_dataset.py
-python examples/preprocess_walkthrough.py
-python examples/emoji_signal.py
-python examples/heuristic_baseline.py
-python examples/attention_demo.py
-python examples/report_metrics.py
-python examples/run_all.py
-python -m unittest discover -s examples/tests -v
+python3 examples/inspect_dataset.py
+python3 examples/preprocess_walkthrough.py
+python3 examples/emoji_signal.py
+python3 examples/heuristic_baseline.py
+python3 examples/attention_demo.py
+python3 examples/report_metrics.py
+python3 examples/run_all.py
+python3 -m unittest discover -s examples/tests -v
 ```
 
 Details: [examples/README.md](examples/README.md).

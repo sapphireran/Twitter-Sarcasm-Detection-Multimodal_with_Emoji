@@ -6,7 +6,7 @@ script checks the raw co-occurrence first, before any embedding
 model: P(label=1 | has emoji-like token), lift over the base rate,
 and a simple mutual-information style count table.
 
-    python examples/emoji_signal.py
+    python3 examples/emoji_signal.py
 """
 
 from __future__ import annotations

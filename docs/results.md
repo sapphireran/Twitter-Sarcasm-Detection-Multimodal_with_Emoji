@@ -101,19 +101,28 @@ Decision Tree, Random Forest, and the deep model.
 ## Hashtag-only ceiling (this checkout)
 
 `examples/heuristic_baseline.py` scores a transparent rule on the
-same CSVs:
+same CSVs: predict sarcastic iff the walkthrough tokenizer emits
+`#not`, `#sarcasm`, `#sarcastic`, or `#sarcastictweet`.
 
-- predict sarcastic if the tweet has `#not`, `#sarcasm`,
-  `#sarcastic`, or `#sarcastictweet` as a hashtag token
-- otherwise predict not sarcastic
+This is **not** a 2023 notebook result. It is a ceiling on "the tag
+is in the string". Measured just now on the checked-in files:
 
-That rule is **not** a published baseline from 2023. It exists so
-you can see how much of test/subtest is "the tag is in the string".
-On test it catches 594 / 1,000 positives and zero false positives
-from those tags, so precision is 1.0 and recall is 0.594 if you ignore
-the compositional `#not ready` problem (which the regex treats as a
-tag when `#not` is a separate token). The deep model still wins on
-F1 because it recovers untagged sarcasm.
+| Split | Acc | Precision | Recall | F1 |
+| --- | ---: | ---: | ---: | ---: |
+| train | 0.6182 | 0.9750 | 0.1833 | 0.3085 |
+| test | 0.7970 | 1.0000 | 0.5940 | 0.7453 |
+| subtest | 0.8453 | 1.0000 | 0.7500 | 0.8571 |
+
+On test the rule finds 594 true positives and 0 false positives
+(406 untagged sarcastic tweets are misses). Train precision is not
+1.0 because 87 tagged tweets are labeled 0, including compositional
+uses such as `#not ready yet`.
+
+Bi-LSTM + attention, test WE, F1 **0.8686** still clears the
+hashtag rule's test F1 **0.7453**. The extra points are untagged
+sarcasm recovered from wording and (on WE) emoji identity. Subtest
+is closer (0.9107 vs 0.8571) because three quarters of the positives
+already wear a tag.
 
 ## Plot
 

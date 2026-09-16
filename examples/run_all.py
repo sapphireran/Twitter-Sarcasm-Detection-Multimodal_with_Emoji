@@ -8,19 +8,21 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+PY = sys.executable
 SCRIPTS = [
-    ["python", "examples/inspect_dataset.py"],
-    ["python", "examples/preprocess_walkthrough.py", "--n", "4"],
-    ["python", "examples/emoji_signal.py"],
-    ["python", "examples/heuristic_baseline.py"],
-    ["python", "examples/attention_demo.py"],
-    ["python", "examples/report_metrics.py"],
+    [PY, "examples/inspect_dataset.py"],
+    [PY, "examples/preprocess_walkthrough.py", "--n", "4"],
+    [PY, "examples/emoji_signal.py"],
+    [PY, "examples/heuristic_baseline.py"],
+    [PY, "examples/attention_demo.py"],
+    [PY, "examples/report_metrics.py"],
 ]
 
 
 def main() -> int:
     for command in SCRIPTS:
-        print("+", " ".join(command), flush=True)
+        printable = ["python" if part == PY else part for part in command]
+        print("+", " ".join(printable), flush=True)
         completed = subprocess.run(command, cwd=ROOT)
         if completed.returncode != 0:
             print(f"FAILED {' '.join(command)} (exit {completed.returncode})", file=sys.stderr)
