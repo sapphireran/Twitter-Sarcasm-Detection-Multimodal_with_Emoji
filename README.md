@@ -44,9 +44,11 @@ Counts were recomputed from the CSVs in this clone:
 
 | Split | Tweets | Sarcastic (`1`) | Non-sarcastic (`0`) | Emoji tweets | Explicit sarcasm-cue hashtags |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `train` | 39,780 | 18,488 (46.5%) | 21,292 | 5,223 | 3,480 |
-| `test` | 2,000 | 1,000 (50%) | 1,000 | 266 | 595 |
-| `subtest` | 278 | 172 (61.9%) | 106 | 266 | 129 |
+| `train` | 39,780 | 18,488 (46.5%) | 21,292 | 5,458 | 3,720 |
+| `test` | 2,000 | 1,000 (50%) | 1,000 | 276 | 614 |
+| `subtest` | 278 | 172 (61.9%) | 106 | 276 | 134 |
+
+Emoji and cue counts use the lite tokenizer in `examples/` (cue set includes `#yeahright`). `examples/11_subtest_membership.py` shows subtest is a subset of test: every emoji-bearing test tweet plus two other test lines.
 
 Labels are binary. A tweet is one line in `*_sentence.csv`; the aligned label is the same line number in `*_label.csv`. Tokenization in the original code uses NLTK `TweetTokenizer` and lowercasing. See [`docs/dataset.md`](docs/dataset.md).
 

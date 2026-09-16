@@ -80,6 +80,8 @@ This is the comparison the project is actually about. When the tweet usually has
 
 **Order vs pooling.** Hold modality fixed and compare BiLSTM+Attn to random forest on test word-only: 0.8635 vs 0.8145. That 5-point gap is larger than any emoji delta on the same split. Sarcasm in this corpus is often a polarity flip across the sentence (`love` … `#not`, `feeling like a million bucks` … `😅`), which mean-pooling smears.
 
+**Hashtag rule vs the 2023 table.** `examples/03_sarcasm_cues.py` predicts sarcastic iff a cue hashtag is present. On test that rule scores **0.807 accuracy / 0.761 F1** with precision 1.0. Random forest (0.815) is barely above it. SVM (0.769) is below it. BiLSTM+attention (0.864 / 0.874) is the result that is not explained by `#not`. Details in [error_analysis.md](error_analysis.md).
+
 ## Confounders you should report if you cite these numbers
 
 1. **Cue hashtags.** 595 / 2,000 test tweets contain `#not` / `#sarcasm` / … and all 595 are labeled sarcastic. A look-at-hashtags baseline is strong. The neural model can exploit `#not` if it is in GloVe; the examples' toy cue classifier exists to make that ceiling visible.

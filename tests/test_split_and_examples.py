@@ -13,7 +13,11 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from examples.lite_pipeline import read_sentence_label_pair
+from examples.lite_pipeline import (
+    has_cue_hashtag,
+    read_sentence_label_pair,
+    strip_wrapping_quotes,
+)
 
 
 def _load(name: str, filename: str):
@@ -26,6 +30,27 @@ def _load(name: str, filename: str):
 
 
 class SplitFileTests(unittest.TestCase):
+    def test_subtest_is_subset_of_test(self) -> None:
+        def texts(split: str) -> set[str]:
+            path = ROOT / "dataset" / f"{split}_sentence.csv"
+            return {
+                strip_wrapping_quotes(line)
+                for line in path.read_text(encoding="utf-8", errors="replace").splitlines()
+            }
+
+        sub, test = texts("subtest"), texts("test")
+        self.assertTrue(sub.issubset(test))
+        self.assertEqual(len(sub), 278)
+
+    def test_test_cue_hashtags_are_all_sarcastic(self) -> None:
+        docs, labels = read_sentence_label_pair(
+            ROOT / "dataset" / "test_sentence.csv",
+            ROOT / "dataset" / "test_label.csv",
+        )
+        for doc, y in zip(docs, labels):
+            if has_cue_hashtag(doc):
+                self.assertEqual(int(y), 1)
+
     def test_each_official_pair_aligns(self) -> None:
         expected = {"train": 39780, "test": 2000, "subtest": 278}
         for split, n in expected.items():

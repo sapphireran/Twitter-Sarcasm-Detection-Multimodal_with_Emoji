@@ -30,7 +30,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--split", default="test", choices=("train", "test", "subtest"))
     parser.add_argument("--limit", type=int, default=12)
-    args = parser.parse_args(argv)
+    args = parser.parse_args([] if argv is None else argv)
 
     root = repo_root()
     sent_path = root / "dataset" / f"{args.split}_sentence.csv"
@@ -64,4 +64,4 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

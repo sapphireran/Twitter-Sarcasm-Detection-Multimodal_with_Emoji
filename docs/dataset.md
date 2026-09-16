@@ -19,37 +19,56 @@ There is no official datasheet in the 2023 upload. Everything below is measured 
 
 ## Split sizes
 
-| Split | Lines | Sarcastic | Non-sarcastic | Sarcastic % | Median tokens (whitespace) | Min / max tokens |
+Line counts and labels are exact CSV facts. Token lengths below use
+`examples/lite_pipeline.tokenize` (punctuation and emoji become their own
+tokens), which is why the maxima are larger than a whitespace split.
+
+| Split | Lines | Sarcastic | Non-sarcastic | Sarcastic % | Median tokens | Min / max tokens |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| train | 39,780 | 18,488 | 21,292 | 46.5 | 16 | 1 / 51 |
-| test | 2,000 | 1,000 | 1,000 | 50.0 | 16 | 1 / 36 |
+| train | 39,780 | 18,488 | 21,292 | 46.5 | 18 | 1 / 94 |
+| test | 2,000 | 1,000 | 1,000 | 50.0 | 16 | 1 / 40 |
 | subtest | 278 | 172 | 106 | 61.9 | 17 | 5 / 36 |
 
 Train is slightly majority-negative. Test was balanced. Subtest is majority-sarcastic, which is why F1 and accuracy can move together there even when a model is biased toward the positive class.
 
 ## Why the subtest exists
 
-The project title is multimodal **with emoji**. Most tweets in train/test do not contain an emoji at all:
+The project title is multimodal **with emoji**. Most tweets in train/test do not contain an emoji at all. Counts use the lite tokenizer’s emoji predicate (`examples/01_dataset_overview.py`):
 
-| Split | Tweets with at least one emoji-range codepoint | Among sarcastic | Among non-sarcastic |
+| Split | Tweets with ≥1 emoji token | Among sarcastic | Among non-sarcastic |
 | --- | ---: | ---: | ---: |
-| train | 5,223 (13.1%) | 2,198 | 3,025 |
-| test | 266 (13.3%) | 164 | 102 |
-| subtest | 266 (95.7%) | 164 | 102 |
+| train | 5,458 (13.7%) | 2,273 | 3,185 |
+| test | 276 (13.8%) | 171 | 105 |
+| subtest | 276 (99.3%) | 171 | 105 |
 
-The emoji-positive counts on test and subtest match exactly (164 sarcastic, 102 not). Subtest is 278 rows, so it is the emoji-bearing test tweets plus a handful of near-neighbors. Evaluating only on `test` therefore dilutes the modality the project set out to study; evaluating only on `subtest` over-represents sarcastic emoji tweets. The original notebooks report both.
+`examples/11_subtest_membership.py` shows a stronger fact than “near-neighbors”:
+
+- every one of the 278 subtest texts appears in `test_sentence.csv`
+- every emoji-bearing test tweet appears in subtest
+- the two extra subtest rows are **non-emoji** test tweets
+
+Subtest is therefore the emoji-present slice of test plus two other test lines, not an independent draw. Evaluating only on `test` dilutes the modality the project set out to study; evaluating only on `subtest` over-represents sarcastic emoji tweets. The original notebooks report both.
 
 ## Explicit sarcasm cues
 
-Hashtags that *name* the label are common. Counting `#not`, `#sarcasm`, `#sarcastic`, `#sarcastictweet`, and `#irony` / `#ironic` (case-insensitive):
+Hashtags that *name* the label are common. The example cue set is
+`#not`, `#sarcasm`, `#sarcastic`, `#sarcastictweet`, `#irony`, `#ironic`,
+and `#yeahright` (see `CUE_HASHTAGS` in `examples/lite_pipeline.py`).
+Related tags such as `#notagain` or `#notcool` are **not** in that set.
 
 | Split | Tweets with a cue hashtag | Cue + sarcastic | Cue + non-sarcastic |
 | --- | ---: | ---: | ---: |
-| train | 3,480 | 3,392 | 88 |
-| test | 595 | 595 | 0 |
-| subtest | 129 | 129 | 0 |
+| train | 3,720 | 3,628 | 92 |
+| test | 614 | 614 | 0 |
+| subtest | 134 | 134 | 0 |
 
-On test, every cue-hashtag tweet is labeled sarcastic. That is a leak if a model can see raw hashtag strings, and a useful baseline feature if you are honest about it. The 2023 neural model sees hashtags as tokens in GloVe space (`#not` may or may not be in-vocab). The toy cue classifier in `examples/06_toy_baseline.py` uses the leak on purpose so the examples can show a ceiling that does not require embeddings.
+On test, every cue-hashtag tweet is labeled sarcastic (precision 1.0,
+accuracy 0.807, F1 0.761 for the rule “cue ⇒ sarcastic”). That is a leak
+if a model can see raw hashtag strings, and a baseline you have to beat.
+The 2023 neural model sees hashtags as tokens in GloVe space (`#not` may
+or may not be in-vocab). Random forest’s 0.815 test accuracy is only
+about a point above this rule; BiLSTM+attention at 0.874 is the first
+number that clearly is not “just `#not`.”
 
 Most frequent hashtags, train split:
 
