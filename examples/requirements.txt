@@ -1,0 +1,3 @@
+# Lightweight extras for docs/examples/tests only.
+# The 2023 notebooks need a different, unpinned stack — see docs/reproduction.md.
+numpy>=1.24
