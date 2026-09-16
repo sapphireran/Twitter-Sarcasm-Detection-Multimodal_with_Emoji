@@ -1,0 +1,4 @@
+# Lightweight extras for examples/ and tests/.
+# The 2023 notebooks still need tensorflow, gensim, nltk, emoji, pandas,
+# scikit-learn, and keras_preprocessing — see docs/reproduction.md.
+numpy>=1.24
