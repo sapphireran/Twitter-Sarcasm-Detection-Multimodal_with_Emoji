@@ -1,0 +1,27 @@
+# Local Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+
+# Notebooks and editor
+.ipynb_checkpoints/
+.idea/
+.vscode/
+.DS_Store
+
+# Large embedding files that are not shipped with this repo
+glove.twitter.27B.*
+glove_tt.txt
+*.glove.bin
+
+# Trained sklearn dumps and local experiment output
+baseline_models/*.pkl
+examples/_output/
+.pytest_cache/
+htmlcov/
+.coverage

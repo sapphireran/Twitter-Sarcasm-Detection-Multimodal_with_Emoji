@@ -1,0 +1,13 @@
+# Original 2023 project stack. Versions are indicative; the saved Keras
+# models were trained with TensorFlow 2.x and the Keras 2 attention layer
+# in attention_layer.py.
+numpy>=1.23
+pandas>=1.5
+scikit-learn>=1.2
+joblib>=1.2
+nltk>=3.8
+emoji>=2.2
+gensim>=4.3
+keras-preprocessing>=1.1.2
+tensorflow>=2.10
+matplotlib>=3.7
