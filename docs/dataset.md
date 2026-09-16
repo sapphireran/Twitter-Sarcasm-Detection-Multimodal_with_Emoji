@@ -52,11 +52,12 @@ Run `python examples/tokenize_demo.py` to see the difference on a real line.
 ## Label balance
 
 Computed by `python examples/dataset_overview.py` from the CSVs in this
-repository (not from memory):
+repository (not from memory). Token counts use the example tokenizer, so
+`<user>` is one token; they will not match an NLTK `TweetTokenizer` dump.
 
 | split | n | non-sarc | sarc | sarc% | emoji | emoji% | mean tok | #not | sarc-tag |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| train | 39780 | 21292 | 18488 | 46.5 | 5479 | 13.8 | 18.58 | 3188 | 287 |
+| train | 39780 | 21292 | 18488 | 46.5 | 5479 | 13.8 | 18.01 | 3188 | 287 |
 | test | 2000 | 1000 | 1000 | 50.0 | 278 | 13.9 | 16.90 | 465 | 130 |
 | subtest | 278 | 106 | 172 | 61.9 | 278 | 100.0 | 17.99 | 110 | 19 |
 

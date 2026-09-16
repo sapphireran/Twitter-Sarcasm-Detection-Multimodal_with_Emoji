@@ -21,9 +21,9 @@ SCRIPTS = [
 def main() -> int:
     failed = 0
     for script in SCRIPTS:
-        print("=" * 72)
-        print(script)
-        print("=" * 72)
+        print("=" * 72, flush=True)
+        print(script, flush=True)
+        print("=" * 72, flush=True)
         result = subprocess.run([sys.executable, str(ROOT / script)], cwd=ROOT)
         if result.returncode != 0:
             failed += 1
