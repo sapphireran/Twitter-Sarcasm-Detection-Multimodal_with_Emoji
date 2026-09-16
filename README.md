@@ -35,12 +35,16 @@ python3 -m pip install -r requirements-examples.txt
 python3 examples/dataset_overview.py
 python3 examples/cue_analysis.py
 python3 examples/lexical_baseline.py
+python3 examples/error_analysis.py
+python3 examples/token_odds.py
 python3 examples/attention_walkthrough.py
 python3 examples/tokenize_demo.py
 python3 -m unittest discover -s tests -v
 ```
 
 These scripts tokenize the committed CSVs, measure how sarcasm cues (hashtags, emoji, stock phrases) line up with labels, train a bag-of-words Naive Bayes / SGD logistic baseline, and walk through the same attention equations used in `attention_layer.py`.
+
+On these files the lexical models are not a toy: SGD logistic reaches **87.95%** test accuracy without GloVe, because the test set is dense in `#not` / `#sarcastictweet`. That leak is documented in [docs/findings.md](docs/findings.md).
 
 ## Original deep-learning path
 
@@ -57,6 +61,10 @@ These scripts tokenize the committed CSVs, measure how sarcasm cues (hashtags, e
 - [Reproduction](docs/reproduction.md) — environments, missing artifacts, known quirks
 - [References](docs/references.md) — papers and pretrained vectors
 - [Examples](examples/README.md) — how the new scripts map onto the project
+- [Findings](docs/findings.md) — hashtag leakage, emoji-only subtest, bag-of-words vs LSTM
+- [Code map](docs/code_map.md) — 2023 files ↔ examples
+- [Example runs](docs/example_runs.md) — captured script output
+- [Worked example](docs/worked_example.md) — one subtest tweet through both paths
 
 ## License
 

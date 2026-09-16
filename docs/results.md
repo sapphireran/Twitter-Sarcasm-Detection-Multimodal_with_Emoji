@@ -75,8 +75,14 @@ single      subtest loss=0.3056  acc=0.8669
 
 Those accuracies match the table above.
 
-## Lexical example baseline (this documentation pass)
+## Lexical example baseline (this branch)
 
-`examples/lexical_baseline.py` trains **without** GloVe: bag-of-words Naive Bayes and SGD logistic regression, plus a tiny cue classifier that only looks at hashtags / emoji / stock phrases.
+`examples/lexical_baseline.py` trains **without** GloVe: bag-of-words Naive Bayes, SGD logistic regression, and a hashtag/emoji cue rule. Full snapshot: [example_runs.md](example_runs.md). Headline numbers:
 
-Those numbers are not comparable to the 2023 embedding models (different features, different implementation). They answer a different question: *how far do surface sarcasm cues go on these exact files?* Run the script and see [example_runs.md](example_runs.md) after a local run.
+| Model | test acc | subtest acc |
+| --- | ---: | ---: |
+| Rule (sarcasm hashtag / stem+emoji) | 81.30% | 88.85% |
+| Multinomial NB (unigrams) | 84.75% | 85.61% |
+| SGD logistic (unigrams) | 87.95% | 89.93% |
+
+SGD logistic matching the 2023 Bi-LSTM is explained in [findings.md](findings.md): the evaluation sets are dense in `#not`-style tags, so a bag-of-words model that keeps the raw hashtag is not a weak baseline. Mean-pooled GloVe SVM (76.9%) is weaker than counts for that reason.

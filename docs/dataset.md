@@ -12,7 +12,12 @@ The committed files under `dataset/` are line-aligned tweet / label pairs. They 
 | Test | `test_sentence.csv` / `test_label.csv` | 2,000 | 1,000 | 1,000 | 50.0% |
 | Subtest | `subtest_sentence.csv` / `subtest_label.csv` | 278 | 106 | 172 | 61.9% |
 
-The test set is balanced. The subtest is smaller, sarcasm-heavy, and (from the tweets themselves) much richer in explicit sarcasm markers and emoji. That is why every notebook reports **full test** and **subtest** separately: the subtest is a stress test for the emoji channel, not a second i.i.d. draw from the same distribution.
+The test set is balanced. The subtest is smaller, sarcasm-heavy, and **every subtest tweet has at least one emoji** (`examples/dataset_overview.py`). Training and the full test set are only ~14% emoji. That is why every notebook reports **full test** and **subtest** separately: the subtest is a stress test for the emoji channel, not a second i.i.d. draw from the same distribution.
+
+Two other shifts the 2023 notebooks did not name:
+
+- The full test set has **0%** `<user>` mentions; training has 23.7%.
+- Sarcasm hashtags (`#not`, `#sarcastictweet`, …) cover 61.5% of sarcastic **test** tweets and 77.9% of sarcastic **subtest** tweets, versus 19.7% of sarcastic **train** tweets. See [findings.md](findings.md).
 
 ## Text conventions
 

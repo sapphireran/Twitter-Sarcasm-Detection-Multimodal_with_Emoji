@@ -98,6 +98,15 @@ class MetricsTests(unittest.TestCase):
 
 
 class VectorizerAndModelsTests(unittest.TestCase):
+    def test_not_hashtag_is_sarcastic_leaning(self) -> None:
+        train = load_split("train", tokenize=True)
+        vec = CountVectorizer(min_df=4, max_features=8000)
+        X = vec.fit_transform(train.tokens)
+        model = MultinomialNB().fit(X, train.labels, vec.n_features)
+        idx = vec.vocabulary_["#not"]
+        log_odds = model.feature_log_prob_[1][idx] - model.feature_log_prob_[0][idx]
+        self.assertGreater(log_odds, 2.0)
+
     def test_nb_separates_toy_topic(self) -> None:
         docs = [
             ["love", "this", "song"],

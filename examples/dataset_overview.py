@@ -88,9 +88,8 @@ def main() -> int:
     print("Notes")
     print("- test is balanced by construction (1000 / 1000).")
     print("- subtest is smaller, sarcasm-heavy, and denser in emoji/hashtags.")
-    print("- max token length on train is the Keras pad length if you refit.")
     train_max = max(len(toks) for toks in splits["train"].tokens)
-    print(f"- this tokenizer's train max length: {train_max}")
+    print(f"- this tokenizer's train max length: {train_max} (Keras / NLTK used 78).")
     return 0
 
 

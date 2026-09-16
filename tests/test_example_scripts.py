@@ -29,6 +29,8 @@ class ScriptImportTests(unittest.TestCase):
             "tokenize_demo",
             "attention_walkthrough",
             "lexical_baseline",
+            "error_analysis",
+            "token_odds",
         ):
             module = _load(name)
             self.assertTrue(callable(getattr(module, "main", None)), name)

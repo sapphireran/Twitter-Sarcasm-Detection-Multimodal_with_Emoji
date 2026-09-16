@@ -9,6 +9,8 @@ examples/
   dataset_overview.py   split sizes, lengths, mention / url rates
   cue_analysis.py       hashtag / emoji / phrase vs label
   lexical_baseline.py   bag-of-words NB + SGD logistic
+  error_analysis.py     FN/FP from the cue rule and NB
+  token_odds.py         tokens with the strongest class odds
   attention_walkthrough.py
   tokenize_demo.py      side-by-side with a few committed tweets
 ```
@@ -20,6 +22,8 @@ python3 -m pip install -r requirements-examples.txt
 python3 examples/dataset_overview.py
 python3 examples/cue_analysis.py
 python3 examples/lexical_baseline.py
+python3 examples/error_analysis.py
+python3 examples/token_odds.py
 python3 examples/attention_walkthrough.py
 python3 examples/tokenize_demo.py
 ```
