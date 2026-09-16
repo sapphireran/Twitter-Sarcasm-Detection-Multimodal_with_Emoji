@@ -1,0 +1,16 @@
+# Libraries imported by the 2023 course files
+# (data_utils.py, dl_model.py, attention_layer.py, the notebooks).
+# The example scripts only need numpy.
+#
+# Gensim 3 is what the .vocab membership tests were written against.
+# On Gensim 4, change `token in model.vocab` to `token in model`.
+
+numpy>=1.20
+pandas>=1.3
+scikit-learn>=1.0
+joblib>=1.1
+nltk>=3.7
+emoji>=2.0
+gensim>=3.8,<4.0
+tensorflow>=2.8,<2.13
+keras-preprocessing>=1.1

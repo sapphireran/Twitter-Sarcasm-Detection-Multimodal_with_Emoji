@@ -1,0 +1,2 @@
+# Enough to run examples/ and tests/ in this checkout.
+numpy>=1.20
