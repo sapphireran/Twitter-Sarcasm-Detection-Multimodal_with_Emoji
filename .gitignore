@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# Notebooks / editors
+.ipynb_checkpoints/
+.idea/
+.vscode/
+*.swp
+
+# Local embedding dumps that are too large to commit
+glove.twitter.27B.200d.bin
+glove_tt.txt
+*.glove.bin
+
+# Example / test outputs
+examples/output/
+tests/output/
+*.log
