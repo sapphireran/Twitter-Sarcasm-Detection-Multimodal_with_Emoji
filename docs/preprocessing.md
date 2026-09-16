@@ -76,7 +76,9 @@ become zeros after padding; they do not grow the vocabulary.
 | `emoji2vec.bin` | Alternate emoji table | Yes (~2.0 MB) |
 
 You can still inspect emoji geometry without GloVe. See
-`examples/inspect_emoji2vec.py`, which only loads `emoji2vec_twitter.bin`.
+`examples/inspect_emoji2vec.py` and `docs/embeddings.md`. The 200-d Twitter
+table has 1,661 emoji; the sibling `emoji2vec.bin` is the same vocabulary at
+300-d and is not what `PrepModel` reads.
 
 ## Randomness
 

@@ -16,7 +16,7 @@ They import `sarcasm_lib`. None of them load TensorFlow. Only
 | `heuristic_baseline.py` | Precision / recall of explicit cues on train, test, and subtest |
 | `attention_walkthrough.py` | Raffel `α` weights on a three-token toy tweet |
 | `predict_cli.py` | Score one tweet from the command line |
-| `inspect_emoji2vec.py` | Nearest neighbours in the shipped `emoji2vec_twitter.bin` table |
+| `inspect_emoji2vec.py` | Neighbours plus `--report` coverage of corpus emoji vs the 200-d table |
 
 Sample invocations are in `docs/reproduction.md` and the root `README.md`.
 Each script accepts `-h`.

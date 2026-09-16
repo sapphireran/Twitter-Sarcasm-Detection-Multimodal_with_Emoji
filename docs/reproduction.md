@@ -21,6 +21,7 @@ python3 examples/heuristic_baseline.py
 python3 examples/attention_walkthrough.py
 python3 examples/predict_cli.py "I love walking to school #not"
 python3 examples/inspect_emoji2vec.py --neighbors "😂"
+python3 examples/inspect_emoji2vec.py --report
 ```
 
 `inspect_emoji2vec.py` is the only example that needs Gensim. It loads

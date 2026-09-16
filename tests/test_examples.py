@@ -46,3 +46,13 @@ class ExampleScriptTests(unittest.TestCase):
         proc = run_example("examples/attention_walkthrough.py")
         self.assertIn("#not", proc.stdout)
         self.assertIn("context vector", proc.stdout)
+
+    def test_emoji2vec_report_when_gensim_is_available(self) -> None:
+        try:
+            import gensim  # noqa: F401
+        except ImportError:
+            self.skipTest("gensim is optional")
+        proc = run_example("examples/inspect_emoji2vec.py", "--report", "--k", "3")
+        self.assertIn("tokens: 1661", proc.stdout)
+        self.assertIn("dim: 200", proc.stdout)
+        self.assertIn("corpus coverage", proc.stdout)

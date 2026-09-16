@@ -48,6 +48,7 @@ the example scripts do not.
 | [docs/architecture.md](docs/architecture.md) | W vs WE pipelines, why subtest is easy |
 | [docs/dataset.md](docs/dataset.md) | Split sizes, `#not` leakage, emoji rates |
 | [docs/preprocessing.md](docs/preprocessing.md) | `ReadOpen`, mean pooling, embedding fill-in |
+| [docs/embeddings.md](docs/embeddings.md) | GloVe vs the two shipped emoji2vec tables |
 | [docs/models.md](docs/models.md) | Baselines, Bi-LSTM, attention, heuristic |
 | [docs/results.md](docs/results.md) | Accuracy / F1 / P / R tables |
 | [docs/reproduction.md](docs/reproduction.md) | How to rerun examples vs notebooks |
