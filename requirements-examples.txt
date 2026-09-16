@@ -1,0 +1,4 @@
+# Lightweight stack for docs/examples only. The scripts under examples/
+# run with the Python standard library plus NumPy.
+
+numpy>=1.21

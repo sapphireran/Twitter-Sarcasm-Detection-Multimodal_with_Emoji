@@ -1,0 +1,15 @@
+# Full 2023 course-project stack used by the notebooks and Keras model.
+# Pin loosely: the original notebooks were written against TensorFlow 2.x
+# and Gensim 3.x (KeyedVectors.vocab). Newer Gensim moved vocab onto
+# KeyedVectors.key_to_index — see docs/reproduction.md.
+
+tensorflow>=2.8,<2.16
+gensim>=3.8,<4.0
+nltk>=3.7
+emoji>=2.0
+numpy>=1.21
+pandas>=1.3
+scikit-learn>=1.0
+joblib>=1.1
+keras-preprocessing>=1.1
+matplotlib>=3.5
