@@ -1,0 +1,2 @@
+# Archive lab only. The 2023 TensorFlow / gensim notebooks are not required.
+numpy>=1.24
