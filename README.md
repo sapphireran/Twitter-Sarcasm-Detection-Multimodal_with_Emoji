@@ -100,6 +100,9 @@ python3 examples/05_attention_math.py
 python3 examples/06_toy_baseline.py
 python3 examples/07_split_consistency.py
 python3 examples/08_format_results_table.py
+python3 examples/09_peek_emoji2vec.py
+python3 examples/10_hard_cases.py
+python3 examples/11_subtest_membership.py
 ```
 
 ```bash

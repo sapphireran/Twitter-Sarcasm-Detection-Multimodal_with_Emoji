@@ -277,6 +277,47 @@ def accuracy(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     return float((y_true == y_pred).mean())
 
 
+def iter_word2vec_binary(path: str | Path):
+    """Yield ``(token, float32 vector)`` from a gensim-style ``.bin`` table.
+
+    Used to inspect ``emoji2vec_twitter.bin`` without importing gensim.
+    Header is ``vocab_size dim`` as ASCII; each record is a UTF-8 token
+    terminated by a space, then ``dim`` little-endian float32s.
+    """
+    path = Path(path)
+    with path.open("rb") as handle:
+        header = handle.readline()
+        try:
+            vocab_size, dim = map(int, header.split())
+        except ValueError as exc:
+            raise ValueError(f"not a word2vec header: {header!r}") from exc
+        for _ in range(vocab_size):
+            chars = bytearray()
+            while True:
+                ch = handle.read(1)
+                if ch == b"":
+                    raise EOFError(f"truncated word2vec file: {path}")
+                if ch == b" ":
+                    break
+                if ch != b"\n":
+                    chars.extend(ch)
+            raw = handle.read(4 * dim)
+            if len(raw) != 4 * dim:
+                raise EOFError(f"truncated vector for {chars!r} in {path}")
+            token = chars.decode("utf-8", errors="replace")
+            vec = np.frombuffer(raw, dtype=np.float32).copy()
+            yield token, vec
+
+
+def load_word2vec_binary(path: str | Path, limit: int | None = None) -> dict[str, np.ndarray]:
+    table: dict[str, np.ndarray] = {}
+    for i, (token, vec) in enumerate(iter_word2vec_binary(path)):
+        table[token] = vec
+        if limit is not None and i + 1 >= limit:
+            break
+    return table
+
+
 def write_aligned_csv(sentence_path: Path, label_path: Path, rows: Iterable[tuple[str, int]]) -> None:
     """Helper for building tiny fixtures without a real CSV library."""
     sentence_path.parent.mkdir(parents=True, exist_ok=True)

@@ -20,6 +20,8 @@ from examples.lite_pipeline import (
     docs_to_padded,
     has_cue_hashtag,
     is_emoji_token,
+    iter_word2vec_binary,
+    load_word2vec_binary,
     mean_pool,
     mimic_readopen_commas,
     nearest_centroid_predict,
@@ -133,6 +135,22 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(feats.shape, (2, 4))
         self.assertEqual(feats[0, 0], 1.0)
         self.assertEqual(feats[1, 0], 0.0)
+
+
+class Word2VecBinaryTests(unittest.TestCase):
+    def test_emoji2vec_twitter_header_and_width(self) -> None:
+        path = ROOT / "emoji2vec_twitter.bin"
+        self.assertTrue(path.exists())
+        first = load_word2vec_binary(path, limit=3)
+        self.assertEqual(len(first), 3)
+        for vec in first.values():
+            self.assertEqual(vec.shape, (200,))
+            self.assertEqual(vec.dtype, np.float32)
+
+    def test_iterator_counts_header_rows(self) -> None:
+        path = ROOT / "emoji2vec_twitter.bin"
+        n = sum(1 for _ in iter_word2vec_binary(path))
+        self.assertEqual(n, 1661)
 
 
 class FixtureAlignmentTests(unittest.TestCase):

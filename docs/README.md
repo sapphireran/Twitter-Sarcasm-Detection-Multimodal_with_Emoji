@@ -11,6 +11,7 @@ These pages were written from the code, CSVs, and notebook outputs that are alre
 | [reproducing.md](reproducing.md) | How to rerun notebooks vs how to rerun `examples/` |
 | [notebooks.md](notebooks.md) | Cell-level map of the three original notebooks |
 | [references.md](references.md) | Papers and embedding sources cited by the code |
+| [error_analysis.md](error_analysis.md) | Cue / emoji / hard-row buckets and subtest overlap |
 | [results/recorded_metrics.json](results/recorded_metrics.json) | Machine-readable copy of the notebook numbers |
 
 Related runnable scripts are listed in [`../examples/README.md`](../examples/README.md).

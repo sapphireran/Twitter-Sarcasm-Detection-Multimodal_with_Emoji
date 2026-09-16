@@ -13,6 +13,9 @@ python3 examples/05_attention_math.py
 python3 examples/06_toy_baseline.py
 python3 examples/07_split_consistency.py
 python3 examples/08_format_results_table.py
+python3 examples/09_peek_emoji2vec.py
+python3 examples/10_hard_cases.py
+python3 examples/11_subtest_membership.py
 ```
 
 `lite_pipeline.py` is the shared library. It is a stand-in, not a drop-in
@@ -31,6 +34,9 @@ replacement, for `data_utils.py`. Differences are listed in
 | `06_toy_baseline.py` | `dataset/*.csv` | Nearest-centroid on 4 hand features; cue rule |
 | `07_split_consistency.py` | `dataset/*.csv` | Alignment + the counts frozen in the docs |
 | `08_format_results_table.py` | `docs/results/recorded_metrics.json` | Markdown tables of the 2023 notebook numbers |
+| `09_peek_emoji2vec.py` | `emoji2vec_twitter.bin`, test CSV | Binary table size, face-emoji coverage, test hits |
+| `10_hard_cases.py` | `dataset/*.csv` | Sarcastic tweets with neither cue nor emoji |
+| `11_subtest_membership.py` | test + subtest CSVs | How much of subtest is the emoji slice of test |
 
 ## Fixture
 

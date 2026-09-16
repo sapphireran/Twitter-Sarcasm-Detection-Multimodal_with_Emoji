@@ -84,6 +84,20 @@ class ExampleMainTests(unittest.TestCase):
         self.assertIn("BiLSTM + attention", out)
         self.assertIn("0.8735", out)
 
+    def test_peek_emoji2vec(self) -> None:
+        out = self._run("09_peek_emoji2vec.py")
+        self.assertIn("rows          1661", out)
+        self.assertIn("dim           200", out)
+
+    def test_hard_cases_default_test(self) -> None:
+        out = self._run("10_hard_cases.py")
+        self.assertIn("split=test", out)
+        self.assertIn("no cue, no emoji (hard):", out)
+
+    def test_subtest_membership(self) -> None:
+        out = self._run("11_subtest_membership.py")
+        self.assertIn("subtest texts that also appear in test:", out)
+
 
 if __name__ == "__main__":
     unittest.main()
