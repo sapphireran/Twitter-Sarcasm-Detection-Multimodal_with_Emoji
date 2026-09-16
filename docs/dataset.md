@@ -52,23 +52,23 @@ Computed from the files on disk (whitespace-separated word counts, Unicode emoji
 
 | Split | n | Class 0 | Class 1 | Mean words | Median words | Max words |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| train | 39,780 | 21,292 (53.5%) | 18,488 (46.5%) | 16.46 | 16 | 51 |
+| train | 39,780 | 21,292 (53.5%) | 18,488 (46.5%) | 16.33 | 16 | 51 |
 | test | 2,000 | 1,000 (50.0%) | 1,000 (50.0%) | 16.51 | 16 | 36 |
 | subtest | 278 | 106 (38.1%) | 172 (61.9%) | 17.70 | 17 | 36 |
 
-Training class 0 tweets average 15.88 words; class 1 tweets average 17.13 words. Sarcastic tweets are slightly longer, which is consistent with punchline + tag constructions (`... #not`).
+Training class 0 tweets average 15.87 words; class 1 tweets average 16.87 words. Word counts here use the quote-stripped loader in `examples/sarcasm_lib/dataset.py`. Counting on the raw file lines (including wrapping quotes) is a few hundredths higher.
 
 ### Surface cues
 
 | Split | Tweets with emoji | Tweets with a hashtag | Tweets with `<user>` | Tweets with `#not` |
 | --- | ---: | ---: | ---: | ---: |
-| train | 5,470 (13.8%) | 8,486 (21.3%) | 9,433 (23.7%) | 3,188 |
-| test | 277 (13.9%) | 932 (46.6%) | 0 | 465 |
-| subtest | 277 (99.6%) | 155 (55.8%) | 0 | 110 |
+| train | 5,486 (13.8%) | 8,486 (21.3%) | 9,433 (23.7%) | 3,188 |
+| test | 278 (13.9%) | 932 (46.6%) | 5 | 465 |
+| subtest | 278 (100%) | 155 (55.8%) | 0 | 110 |
 
-The **subtest is an emoji filter** of the test distribution: 277 of 278 lines contain at least one emoji, and the class prior shifts toward sarcasm (61.9%). That is why the original notebooks report a separate “subtest” number — it is the intended multimodal stress test, not a random 278-row draw.
+The **subtest is an emoji filter** of the test distribution: every one of the 278 lines contains at least one emoji, and the class prior shifts toward sarcasm (61.9%). That is why the original notebooks report a separate “subtest” number — it is the intended multimodal stress test, not a random 278-row draw.
 
-Training emoji rate is almost the same in both classes (15.0% of class 0, 12.3% of class 1). On test, emoji are *more* common in sarcastic tweets (17.1% vs 10.6%). Subtest removes that comparison by construction.
+Training emoji rate is similar in both classes (15.0% of class 0, 12.3% of class 1). On test, emoji are *more* common in sarcastic tweets (17.2% vs 10.6%). Subtest removes that comparison by construction. `examples/inspect_dataset.py` reprints these tables.
 
 ### Frequent hashtags (train)
 

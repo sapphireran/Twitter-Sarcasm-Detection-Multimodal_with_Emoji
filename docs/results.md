@@ -94,6 +94,16 @@ A hashtag-aware bag-of-tokens model will look strong because the labels themselv
 
 A fair “does emoji2vec help?” claim has to hold after those tags are stripped. The original notebooks do not report a tag-ablated number. The example script prints both the full-feature score and a `--strip-supervision-tags` score so you can see the drop.
 
+Regenerated in this checkout (stdlib + NumPy Naive Bayes, no GloVe):
+
+| System | Test acc | Test F1 | Subtest acc | Subtest F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Supervision-tag rule (`#not` / `#sarcasm` / …) | 0.807 | 0.760 | 0.863 | 0.876 |
+| Naive Bayes (tags kept) | 0.833 | 0.852 | 0.871 | 0.904 |
+| Naive Bayes (tags stripped) | 0.744 | 0.772 | 0.712 | 0.777 |
+
+The tag rule has **perfect precision** on the test and subtest files (613 / 2,000 test tweets carry a supervision hashtag; all of them are labeled 1). Hiding those tags drops NB test accuracy by about 9 points. That gap is the part of the task that is “just reading the tag.” See [lexical_baseline.md](lexical_baseline.md).
+
 ## Plot
 
 `get_metrics_of_models.ipynb` contains a grouped bar chart of accuracy plus overlaid F1 lines (`Comparison of Accuracies and F1 Scores for Different Models`). The PNG is stored inside the notebook, not as a standalone file.

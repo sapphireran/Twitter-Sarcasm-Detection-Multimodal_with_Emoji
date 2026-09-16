@@ -31,6 +31,10 @@ is already a strong rule on this test file. The NB model will discover those
 tags unless you pass `--strip-supervision-tags`. Use both numbers when you
 write about “how much of the task is just reading the tag.”
 
+Recorded in this checkout: tags-kept NB test acc **0.833**, tags-stripped
+**0.744**, `#not`/`#sarcasm` rule **0.807**. Full table:
+[docs/lexical_baseline.md](../docs/lexical_baseline.md).
+
 ## Library map
 
 | Module | Responsibility |

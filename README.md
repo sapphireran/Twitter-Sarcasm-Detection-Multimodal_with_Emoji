@@ -31,9 +31,9 @@ GloVe Twitter 200-d vectors are **not** checked in. The notebooks expect `glove.
 
 | Split | Tweets | Class 0 | Class 1 | Notes |
 | --- | --- | --- | --- | --- |
-| `train` | 39,780 | 21,292 (53.5%) | 18,488 (46.5%) | Mixed text; ~13.8% contain emoji |
-| `test` | 2,000 | 1,000 | 1,000 | Balanced; no `<user>` tokens |
-| `subtest` | 278 | 106 | 172 | Almost every tweet has emoji (277 / 278) |
+| `train` | 39,780 | 21,292 (53.5%) | 18,488 (46.5%) | Mixed text; 13.8% contain emoji |
+| `test` | 2,000 | 1,000 | 1,000 | Balanced; 13.9% contain emoji |
+| `subtest` | 278 | 106 | 172 | Every tweet has emoji |
 
 Sentence files are line-oriented, not columnar CSV. Some lines are wrapped in quotes; some contain commas. The original loader (`ReadOpen`) replaces commas with spaces. See [docs/dataset.md](docs/dataset.md).
 

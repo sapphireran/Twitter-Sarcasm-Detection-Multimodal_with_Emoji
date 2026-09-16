@@ -1,5 +1,7 @@
 import unittest
 
+import _paths  # noqa: F401
+
 from sarcasm_lib.tokenize import (
     TweetishTokenizer,
     extract_emoji,

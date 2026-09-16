@@ -1,5 +1,7 @@
 import unittest
 
+import _paths  # noqa: F401
+
 from sarcasm_lib.metrics import accuracy, binary_f1
 from sarcasm_lib.naive_bayes import MultinomialNB
 

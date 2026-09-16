@@ -2,6 +2,8 @@ import unittest
 
 import numpy as np
 
+import _paths  # noqa: F401
+
 from sarcasm_lib.attention import masked_temporal_attention
 
 

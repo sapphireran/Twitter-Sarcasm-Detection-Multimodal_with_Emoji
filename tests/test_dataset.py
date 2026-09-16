@@ -1,6 +1,8 @@
 import unittest
 from pathlib import Path
 
+import _paths  # noqa: F401
+
 from sarcasm_lib.dataset import (
     SPLIT_NAMES,
     faithful_readopen_text,

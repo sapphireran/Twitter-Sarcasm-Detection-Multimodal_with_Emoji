@@ -68,6 +68,7 @@ docs/dataset.md              # card, counts, top tags / emoji
 docs/methodology.md          # W vs WE, architecture, quirks
 docs/results.md              # transcribed notebook metrics
 docs/reproduction.md         # how to re-run the 2023 stack
+docs/lexical_baseline.md     # regenerable Naive Bayes / tag-rule scores
 docs/code_map.md             # this file
 examples/sarcasm_lib/        # importable helpers (stdlib + NumPy)
 examples/inspect_dataset.py

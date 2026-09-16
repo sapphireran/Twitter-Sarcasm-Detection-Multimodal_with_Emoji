@@ -1,5 +1,7 @@
 import unittest
 
+import _paths  # noqa: F401
+
 from sarcasm_lib.dataset import load_split
 from sarcasm_lib.features import (
     SUPERVISION_TAGS,
