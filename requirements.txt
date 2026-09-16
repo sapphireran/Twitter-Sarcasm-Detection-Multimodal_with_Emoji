@@ -1,0 +1,14 @@
+# Personal course-project stack (UCPH CCS2, 2023).
+# Pin loosely so the notebooks can still run on a modern machine.
+# The stdlib examples under examples/ do not need these packages.
+
+numpy>=1.21,<2.0
+pandas>=1.3
+scikit-learn>=1.0
+joblib>=1.1
+gensim>=4.0
+nltk>=3.7
+emoji>=2.0
+keras-preprocessing>=1.1
+tensorflow>=2.8,<2.16
+matplotlib>=3.5

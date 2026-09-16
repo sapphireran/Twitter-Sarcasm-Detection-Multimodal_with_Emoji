@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.env
+.python-version
+
+# Notebooks / editors
+.ipynb_checkpoints/
+.idea/
+.vscode/
+*.swp
+
+# Local experiment artifacts (do not commit regenerated dumps)
+*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Large embedding files that are fetched separately
+glove.twitter.27B.200d.bin
+glove_tt.txt
+glove*.txt
+glove*.bin
