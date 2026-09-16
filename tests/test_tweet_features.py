@@ -20,12 +20,14 @@ class TweetFeatureTests(unittest.TestCase):
         )
 
     def test_tokenizer_keeps_hashtags_mentions_and_emoji(self) -> None:
-        tokens = tokenize_tweet("Don't you love it #not 😃 🔫 <user>")
+        tokens = tokenize_tweet("Don't you love it #not 😃 🔫 <user> 100 days")
         self.assertIn("#not", tokens)
         self.assertIn("<user>", tokens)
         self.assertIn("😃", tokens)
         self.assertIn("🔫", tokens)
         self.assertIn("love", tokens)
+        self.assertIn("100", tokens)
+        self.assertNotIn("1", tokens)
 
     def test_sarcastic_sample_has_contrast_cues(self) -> None:
         features = extract_features("I just love having grungy ass hair 😑 #not")
@@ -42,11 +44,18 @@ class TweetFeatureTests(unittest.TestCase):
         self.assertEqual(features.contrast_cue, 0)
         self.assertEqual(features.love_word, 1)
 
+    def test_sincere_crying_love_is_not_contrast(self) -> None:
+        features = extract_features("i wanna love you again live someday 😭 😭 😭")
+        self.assertEqual(features.love_word, 1)
+        self.assertEqual(features.contrast_cue, 0)
+        self.assertGreaterEqual(features.emoji_count, 3)
+
     def test_elongated_love(self) -> None:
         playful = extract_features("I loovee when people text back ... 😒 #sarcastictweet")
         self.assertEqual(playful.love_word, 1)
         self.assertEqual(playful.sarcasm_hashtag, 1)
         self.assertEqual(playful.ellipsis, 1)
+        self.assertEqual(playful.elongated_count, 0)
 
         stretched = extract_features("I loooove this #not")
         self.assertEqual(stretched.elongated_count, 1)

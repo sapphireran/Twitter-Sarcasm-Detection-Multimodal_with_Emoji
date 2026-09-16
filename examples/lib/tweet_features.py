@@ -24,6 +24,7 @@ TOKEN_RE = re.compile(
     r"|@\w+|<user>"
     r"|[\U0001F300-\U0001FAFF\U00002700-\U000027BF\U00002600-\U000026FF]"
     r"|[A-Za-z]+(?:'[A-Za-z]+)?"
+    r"|\d+"
     r"|[\.\!\?]+"
     r"|[^\s]"
 )
@@ -73,7 +74,8 @@ NEGATIVE_WORDS = frozenset(
         "ugly",
     }
 )
-NEGATIVE_EMOJI = frozenset("😒😑😩😭🔫👎💔😅🙄")
+# Crying faces are left out on purpose: they are common in sincere tweets.
+NEGATIVE_EMOJI = frozenset("😒😑😩🔫👎💔😅🙄")
 POSITIVE_EMOJI = frozenset("😂😊😍❤😘😄😃😁✨")
 
 
@@ -204,7 +206,11 @@ def extract_features(text: str) -> TweetFeatures:
         exclamation_count=text.count("!"),
         question_count=text.count("?"),
         ellipsis=int("..." in text or "…" in text),
-        elongated_count=sum(1 for token in lower_tokens if ELONGATION_RE.search(token)),
+        elongated_count=sum(
+            1
+            for token in lower_tokens
+            if token.isalpha() and ELONGATION_RE.search(token)
+        ),
         allcaps_count=sum(
             1
             for token in tokens

@@ -4,8 +4,8 @@ Computed live from `dataset/*.csv`. Label `1` is sarcastic; label `0` is not sar
 
 | Split | Tweets | Sarcastic | Non-sarcastic | Mean tokens | With emoji | With hashtag |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| train | 39780 | 18488 | 21292 | 18.5 |  13.8% |  21.3% |
-| test | 2000 | 1000 | 1000 | 17.0 |  13.8% |  46.6% |
+| train | 39780 | 18488 | 21292 | 18.4 |  13.8% |  21.3% |
+| test | 2000 | 1000 | 1000 | 16.9 |  13.8% |  46.6% |
 | subtest | 278 | 172 | 106 | 17.9 |  99.6% |  55.8% |
 
 ## Cue rates by class
