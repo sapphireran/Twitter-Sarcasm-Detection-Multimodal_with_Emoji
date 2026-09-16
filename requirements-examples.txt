@@ -1,0 +1,4 @@
+# Lightweight extras for docs/examples and tests. These do not replace the
+# full TensorFlow stack used by the 2023 notebooks.
+numpy>=1.23
+pytest>=7.4
