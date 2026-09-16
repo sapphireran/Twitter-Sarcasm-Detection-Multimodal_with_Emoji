@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.python-version
+.ipynb_checkpoints/
+*.egg-info/
+.mypy_cache/
