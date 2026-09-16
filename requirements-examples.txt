@@ -1,0 +1,5 @@
+# Lightweight extras for docs/examples. The inspect/heuristic/attention
+# scripts run with the standard library plus NumPy; tests need NumPy too.
+numpy>=1.24
+# Optional: only examples/inspect_emoji2vec.py imports this.
+# gensim>=4.3

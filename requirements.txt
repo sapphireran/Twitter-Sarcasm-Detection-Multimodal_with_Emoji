@@ -1,0 +1,11 @@
+# Stack used by the 2023 notebooks. Versions are lower bounds, not a lockfile.
+# GloVe-Twitter 27B 200d is not installed by pip; download it separately.
+numpy>=1.24
+pandas>=1.5
+nltk>=3.8
+emoji>=2.0
+gensim>=4.3
+scikit-learn>=1.2
+joblib>=1.2
+tensorflow>=2.10
+keras-preprocessing>=1.1
