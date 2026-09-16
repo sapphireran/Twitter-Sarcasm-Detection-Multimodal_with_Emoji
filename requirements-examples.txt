@@ -1,0 +1,7 @@
+# Lightweight extras for the personal examples/ and tests/ trees.
+# The original 2023 notebooks also need TensorFlow, gensim, nltk,
+# keras-preprocessing, emoji, pandas, scikit-learn, and joblib.
+# Those heavier pins live in docs/reproducing.md so a fresh clone
+# can run the documentation scripts without pulling a full DL stack.
+
+numpy>=1.20
