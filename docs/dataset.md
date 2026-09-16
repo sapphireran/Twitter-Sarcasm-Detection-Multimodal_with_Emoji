@@ -56,6 +56,14 @@ more mention-heavy (9,500 rows contain `<user>` or `@`). That
 mismatch matters: a hashtag-only rule looks stronger on test than it
 would on a mention-heavy timeline.
 
+`examples/inspect_dataset.py` also scores the rule
+`#not` / `#sarcasm*` / `#yeahright` → sarcastic. On the **test**
+split that rule has precision 1.000 and recall 0.613 (accuracy
+0.806). On **train** precision is still 0.976 but recall drops to
+0.196 — only 3,191 train tweets carry `#not`, versus 465 of 2,000
+test tweets. Models fit on train therefore see a weaker tag signal
+than the test set rewards.
+
 The most common test hashtags, in order: `#not`, `#sarcasm`,
 `#sarcastictweet`, `#yeahright`, `#fml`, `#exhausted`, `#yay`.
 

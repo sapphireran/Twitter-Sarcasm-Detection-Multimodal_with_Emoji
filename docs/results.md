@@ -94,13 +94,31 @@ The multi-modal checkpoint has a slightly **higher** test loss and a
 5. Do not treat the subtest as a second i.i.d. test. It is an
    emoji-conditioned slice with a different label prior.
 
-## A lexical floor (this docs pass)
+## A lexical floor (measured in this docs pass)
 
 `examples/lexical_sarcasm_baseline.py` fits a NumPy logistic
 regression on surface features only (hashtag flags, emoji counts,
-elongation, punctuation). It is a **lower bound** for how much of
-the test set is solvable without GloVe. Run it locally; the number
-moves with the random seed because the train shuffle is seeded in
-the script. On a typical run the hashtag flags alone already clear
-the mid-0.60s on full test — that is the `#not` / `#sarcasm`
-artifact described in [dataset.md](dataset.md).
+elongation, punctuation). A second line is the dumb **hashtag
+rule**: `#not` / `#sarcasm*` / `#yeahright` → sarcastic.
+
+Measured on the real CSVs (seed 0, 250 epochs, full train):
+
+| Split | Logreg acc / F1 | Hashtag-rule acc / F1 | Hashtag-rule P / R |
+| --- | --- | --- | --- |
+| Train | 0.616 / 0.432 | 0.624 / 0.327 | 0.976 / 0.196 |
+| Full test | 0.753 / 0.727 | **0.806 / 0.760** | **1.000 / 0.613** |
+| Subtest | 0.831 / 0.843 | **0.863 / 0.876** | **1.000 / 0.779** |
+
+Two things matter:
+
+1. On test, every tweet that carries one of those tags is gold
+   sarcastic (precision 1.0). That is label leakage, not a clever
+   model. Train is almost as clean (precision 0.976) but much less
+   tag-saturated (recall 0.196 vs 0.613), so a logreg fit on train
+   under-uses the tag and **loses to the rule on test**.
+2. The Bi-LSTM still clears 0.864 / 0.866 on the same full test set.
+   The gap above the 0.806 hashtag floor is the part that actually
+   needs word order, `#itsAPA`-style flips, and emoji2vec.
+
+`examples/inspect_dataset.py` reprints the hashtag-rule confusion
+counts for each split.

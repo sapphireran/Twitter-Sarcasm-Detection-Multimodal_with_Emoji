@@ -58,6 +58,7 @@ class ExampleScriptTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertIn('"train"', proc.stdout)
         self.assertIn("39780", proc.stdout)
+        self.assertIn("hashtag_rule", proc.stdout)
 
 
 if __name__ == "__main__":

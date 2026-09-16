@@ -113,8 +113,9 @@ def main(argv: list[str] | None = None) -> int:
     print()
     print(
         "The hashtag rule is `#not` / `#sarcasm*` / `#yeahright` → sarcastic. "
-        "If logreg only barely beats it on test, the dataset's tag leakage "
-        "is doing most of the work — see docs/dataset.md."
+        "On these CSVs the rule has precision 1.0 on test and beats the "
+        "train-fit logreg there — test is much more tag-saturated than "
+        "train. See docs/results.md and docs/dataset.md."
     )
     return 0
 

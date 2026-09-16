@@ -24,6 +24,7 @@ from examples.lib.dataset_io import (  # noqa: E402
     split_sizes,
     top_hashtags,
 )
+from examples.lib.lexical_features import hashtag_rule_predict  # noqa: E402
 
 
 def _example_rows(split, want_label: int, need_emoji: bool, limit: int) -> list[str]:
@@ -41,6 +42,35 @@ def _example_rows(split, want_label: int, need_emoji: bool, limit: int) -> list[
     return rows
 
 
+def _hashtag_rule_stats(split) -> dict[str, float | int]:
+    """How much of the gold label is just `#not` / `#sarcasm*` / `#yeahright`."""
+    tp = fp = fn = tn = 0
+    for sentence, label in split.labeled():
+        pred = hashtag_rule_predict(sentence)
+        if pred == 1 and label == 1:
+            tp += 1
+        elif pred == 1 and label == 0:
+            fp += 1
+        elif pred == 0 and label == 1:
+            fn += 1
+        else:
+            tn += 1
+    n = max(tp + fp + fn + tn, 1)
+    prec = tp / (tp + fp) if (tp + fp) else 0.0
+    rec = tp / (tp + fn) if (tp + fn) else 0.0
+    return {
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
+        "tn": tn,
+        "accuracy": (tp + tn) / n,
+        "precision": prec,
+        "recall": rec,
+        "sarcastic_with_tag": tp,
+        "sarcastic_without_tag": fn,
+    }
+
+
 def report(dataset_dir: Path) -> dict:
     payload: dict = {"dataset_dir": str(dataset_dir), "splits": {}}
     for name in ("train", "test", "subtest"):
@@ -51,6 +81,7 @@ def report(dataset_dir: Path) -> dict:
             "sizes": sizes,
             "cues": cues,
             "top_hashtags": top_hashtags(split, n=8),
+            "hashtag_rule": _hashtag_rule_stats(split),
             "sample_sarcastic": _example_rows(split, 1, False, 2),
             "sample_literal": _example_rows(split, 0, False, 2),
         }
@@ -82,6 +113,14 @@ def render(payload: dict) -> str:
             lines.append(
                 f"top hashtag {c['top_hashtag']} × {c['top_hashtag_count']}"
             )
+        rule = block["hashtag_rule"]
+        lines.append(
+            f"hashtag-rule acc {rule['accuracy']:.3f}  "
+            f"prec {rule['precision']:.3f}  rec {rule['recall']:.3f}  "
+            f"(tagged sarcastic {rule['sarcastic_with_tag']:,} / "
+            f"missed {rule['sarcastic_without_tag']:,} / "
+            f"false tags {rule['fp']:,})"
+        )
         tags = ", ".join(f"{t}={n}" for t, n in block["top_hashtags"])
         if tags:
             lines.append(f"hashtags: {tags}")

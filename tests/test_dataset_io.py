@@ -42,6 +42,14 @@ class DatasetIoTests(unittest.TestCase):
         self.assertEqual(top[0][0], "#not")
         self.assertGreaterEqual(top[0][1], 400)
 
+    def test_test_hashtag_rule_is_precision_one(self) -> None:
+        from examples.inspect_dataset import _hashtag_rule_stats
+
+        stats = _hashtag_rule_stats(load_split("test", ROOT / "dataset"))
+        self.assertEqual(stats["fp"], 0)
+        self.assertGreaterEqual(stats["sarcastic_with_tag"], 600)
+        self.assertGreater(stats["sarcastic_without_tag"], 300)
+
     def test_mismatched_files_raise(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

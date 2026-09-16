@@ -45,11 +45,16 @@ def tokenize_tweet(line: str, lowercase: bool = True) -> list[str]:
 
 def is_elongated(token: str) -> bool:
     """True when a letter repeats 3+ times (`soooo`) or the token
-    looks like the coursework's `loovee` (two separate doubles)."""
+    looks like the coursework's `loovee` (two separate doubles).
+
+    Punctuation such as `...` is not elongation.
+    """
+    if not token.isalpha() or len(token) < 3:
+        return False
     if _ELONG_RE.search(token):
         return True
     doubles = re.findall(r"(.)\1", token.lower())
-    return len(doubles) >= 2 and token.isalpha() and len(token) >= 5
+    return len(doubles) >= 2 and len(token) >= 5
 
 
 def extract_hashtags(tokens: list[str]) -> list[str]:

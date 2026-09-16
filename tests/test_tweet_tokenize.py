@@ -47,6 +47,8 @@ class TweetTokenizeTests(unittest.TestCase):
         self.assertTrue(is_elongated("loovee"))
         self.assertFalse(is_elongated("love"))
         self.assertFalse(is_elongated("book"))
+        self.assertFalse(is_elongated("..."))
+        self.assertFalse(is_elongated("#not"))
 
 
 if __name__ == "__main__":
