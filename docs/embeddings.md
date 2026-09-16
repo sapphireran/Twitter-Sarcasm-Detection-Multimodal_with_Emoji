@@ -108,6 +108,17 @@ Use it to confirm, before you install TensorFlow:
 
 If neighbours look random, the file is truncated or you are decoding UTF-8 keys incorrectly. The custom reader in `examples/common.py` skips the newline-as-separator quirk the same way Gensim does.
 
+Neighbour lists from this snapshot (`emoji2vec_twitter.bin`):
+
+| Query | Nearest keys (cosine) |
+| --- | --- |
+| 😒 | 😞 0.51, 🙎 0.49, 🙁 0.48, 😟 0.48 |
+| 😍 | 😻 0.64, 💌 0.58, 💗 0.55, 😊 0.51 |
+| 😭 | 😿 0.66, 😢 0.62, 😞 0.52, 😂 0.51 |
+| 🌲 | 🎄 0.63, 🌳 0.48, 🌸 0.48 |
+
+That is the geometry `Preprocess` copies into the frozen embedding matrix when `get_emoji2vec=True`.
+
 ## Files you still have to fetch
 
 | Needed for | File | In repo? |

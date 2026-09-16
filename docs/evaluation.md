@@ -86,7 +86,17 @@ Reproduce:
 python examples/cue_baseline.py
 ```
 
-Interpret that script as a *floor / cheat-code*, not as a model in the 2023 table.
+Live numbers from the current CSVs (recomputed in this repo, not from 2023):
+
+| Split | Rule | Acc | F1 | Rec | Prec |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `test` | majority (`0`) | 0.500 | 0.000 | 0.000 | 0.000 |
+| `test` | cue-tag | 0.806 | 0.760 | 0.613 | **1.000** |
+| `test` | clash | 0.812 | 0.772 | 0.637 | 0.980 |
+| `subtest` | cue-tag | 0.863 | 0.876 | 0.779 | **1.000** |
+| `subtest` | clash | 0.888 | 0.903 | 0.843 | 0.973 |
+
+Cue-tag already matches Random Forest *accuracy* on `test` (0.806 vs 0.814) because a third of that split is an explicit sarcasm hashtag on a positive label. The Bi-LSTM still wins (0.874 / 0.892) by catching untagged clashes such as `useless` vs `great`. Interpret the heuristic as a *cheat-code floor*, not as a model in the 2023 table.
 
 ## How to reload the deep models
 
