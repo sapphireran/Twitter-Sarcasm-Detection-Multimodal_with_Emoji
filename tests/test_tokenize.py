@@ -22,6 +22,10 @@ class TokenizerTests(unittest.TestCase):
         tokens = tokenize_tweet("Apartment shopping is so fun #not #exhausted")
         self.assertEqual(hashtags(tokens), ["#not", "#exhausted"])
 
+    def test_lone_hash_is_not_a_hashtag(self) -> None:
+        tokens = tokenize_tweet("see # and then #not")
+        self.assertEqual(hashtags(tokens), ["#not"])
+
     def test_empty_string(self) -> None:
         self.assertEqual(tokenize_tweet(""), [])
 

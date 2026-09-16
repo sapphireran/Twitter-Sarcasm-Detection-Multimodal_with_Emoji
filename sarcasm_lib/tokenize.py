@@ -61,7 +61,7 @@ def normalize_whitespace(text: str) -> str:
 
 
 def hashtags(tokens: Iterable[str]) -> list[str]:
-    return [token for token in tokens if token.startswith("#")]
+    return [token for token in tokens if token.startswith("#") and len(token) > 1]
 
 
 def mentions(tokens: Iterable[str]) -> list[str]:
