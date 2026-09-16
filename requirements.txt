@@ -1,0 +1,16 @@
+# Core training stack used by the 2023 notebooks (TensorFlow 2.x / Keras 2).
+# Pin loosely so a current environment can still load the original scripts.
+tensorflow>=2.8,<2.16
+numpy>=1.21
+pandas>=1.3
+scikit-learn>=1.0
+gensim>=4.0
+nltk>=3.6
+emoji>=2.0
+joblib>=1.1
+keras-preprocessing>=1.1
+matplotlib>=3.5
+
+# The example scripts under examples/ only need the stdlib plus numpy.
+# Install the full list above if you want to re-run baseline_models.ipynb
+# or evaluate_loaded_dl_models.ipynb.
