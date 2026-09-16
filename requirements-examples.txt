@@ -1,0 +1,2 @@
+# Docs/examples only. The toolkit itself is stdlib-only; tests use pytest.
+pytest>=7.0
